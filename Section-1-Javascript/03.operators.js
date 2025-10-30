@@ -233,4 +233,3 @@ if (sayi % 2 === 0) {
 } else {
     console.log("Bu sayı tek sayıdır.");
 }
-// prompt ile aldığımız ifade string olarak döner. Bu yüzden % 2 ile bölümünden kalanı alamayız. Bu yüzden Number() ile sayıya çevirmeliyiz.
