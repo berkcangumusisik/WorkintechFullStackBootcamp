@@ -186,3 +186,51 @@ let altinSayisi = 100;
 if (altinSayisi) {
     console.log("Kapı kapanmalı");
 } 
+
+
+let c = 10;
+let d = 20;
+console.log(c + d);
+console.log(c > d);
+
+let t = 7;
+let u = "7";
+console.log(t === u); // false
+console.log(t == u); // true
+
+let yas = prompt("Yaşınızı giriniz:");
+if (yas >= 18) {
+    console.log("Reşitsiniz.");
+} else {
+    console.log("Reşit değilsiniz.");
+}
+
+let age = 25;
+let ehliyetVar = true;
+if (age >= 18 && ehliyetVar) {
+    console.log("Araç kullanabilirsiniz.");
+} else {
+    console.log("Araç kullanamazsınız.");
+}
+
+if (""){
+    console.log("Bu yazı görünmez (falsy)");
+}
+
+if ("Merhaba"){
+    console.log("Bu yazı görünecek (truthy)");
+}
+
+
+console.log(10 % 3); // 1 : 10'un 3'e bölümünden kalan
+console.log(10 % 5); // 0 : 10'un 5'e bölümünden kalan
+console.log(7 % 2); // 1 : 7'nin 2'ye bölümünden kalan
+console.log(8 % 2); // 0 : 8'in 2'ye bölümünden kalan
+
+let sayi = prompt("Bir sayı giriniz:");
+if (sayi % 2 === 0) {
+    console.log("Bu sayı çift sayıdır.");
+} else {
+    console.log("Bu sayı tek sayıdır.");
+}
+// prompt ile aldığımız ifade string olarak döner. Bu yüzden % 2 ile bölümünden kalanı alamayız. Bu yüzden Number() ile sayıya çevirmeliyiz.
