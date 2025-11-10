@@ -52,3 +52,36 @@ sinifListesi.push("melek");
 const yemekler = ["pizza", "burger", "kebab", "tatlı"];
 yemekler.pop();
 console.log(yemekler); // ["pizza", "burger", "kebab"]
+
+
+const colors = new Array("mavi", "kırmızı", "mor", "yeşil");
+console.log(colors); // ["mavi", "kırmızı", "mor", "yeşil"]
+// new Array() : Yeni bir array oluşturur.
+
+const hayvanlar = new Array("kedi", "köpek", "at", "kuş");
+console.log(hayvanlar); // ["kedi", "köpek", "at", "kuş"]
+console.log(hayvanlar[2]); // at
+
+// eleman değiştirme
+hayvanlar[2] = "köpek";
+console.log(hayvanlar); // ["kedi", "köpek", "köpek", "kuş"]
+
+const numbers = [1,2,3,4,5];
+console.log(numbers.length); // 5
+sayilar.push(6);
+console.log(numbers); // [1,2,3,4,5,6]
+sayilar.pop();
+console.log(numbers); // [1,2,3,4,5]
+sayilar.unshift(0); // unshift() : Arrayin başına yeni bir eleman ekler.
+console.log(numbers); // [0,1,2,3,4,5]
+numbers.shift(); // shift() : Arrayin başındaki elemanı siler.
+console.log(numbers); // [1,2,3,4,5]
+
+const meyveler = ["elma", "armut", "kiraz", "muz", "incir"];
+console.log(meyveler); // ["elma", "armut", "kiraz", "muz", "incir"]
+console.log(meyveler.includes("armut")); // true
+console.log(meyveler.includes("üzüm")); // false
+const ilkIki = meyveler.slice(0, 2);
+console.log(ilkIki); // ["elma", "armut"]
+meyveler.splice(1,1,"üzüm"); // splice() : Arrayin bir elemanını siler ve yerine başka bir eleman ekler.
+console.log(meyveler); // ["elma", "armut", "kiraz", "muz", "incir"]
