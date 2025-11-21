@@ -1,1 +1,76 @@
-# WorkintechFullStackBootcamp
+# Workintech Full Stack Bootcamp
+
+> Full Stack Web Development Bootcamp - Eğitim Dökümanları ve Projeler
+
+---
+
+<a name="icerik"></a>
+## 📑 İçindekiler
+
+- [Sprint 1 - Javascript ve Yazılım Yapıtaşları](#sprint-1---javascript-ve-yazılım-yapıtaşları)
+
+---
+
+## Sprint 1 - Javascript ve Yazılım Yapıtaşları
+
+[⬆️ Yukarı Dön](#icerik)
+
+Merhaba! Bu Sprint'te Javascript'in temellerini öğrenerek yazılım geliştirme yolculuğumuza başladık. Değişkenlerden fonksiyonlara, dizilerden döngülere kadar programlamanın yapı taşlarını adım adım keşfettik. Bu süreçte sadece kod yazmayı değil, aynı zamanda programatik düşünmeyi de öğrendik. Şimdi birlikte neler öğrendiğimize bakalım! 💻
+
+### 📚 Neler Öğrendik?
+
+#### 1. Javascript Temelleri 
+- **Değişken Tanımlama**: `var`, `let`, `const` kullanımı
+- **Veri Tipleri**: 
+  - Basit veri türleri (Primitive Types): string, number, boolean
+  - Karmaşık veri türleri (Reference Types): array, object
+- **Operatörler**: Aritmetik, karşılaştırma ve mantıksal operatörler
+- **Tip Dönüşümleri**: `Number()`, `String()`, `Boolean()` fonksiyonları
+
+#### 2. Fonksiyonlar
+- **Fonksiyon Tanımlama**: Function declaration ve function expression
+- **Parametreler ve Argümanlar**: Fonksiyonlara veri aktarma
+- **Return İfadesi**: Fonksiyonlardan değer döndürme
+- **Arrow Functions**: Modern JavaScript fonksiyon yazımı
+- **Scope**: Global ve local scope kavramları
+
+#### 3. Arrayler ve Metodlar 
+- **Array Oluşturma ve Kullanımı**
+- **Array Metodları**:
+  - `push()`: Dizinin sonuna eleman ekleme
+  - `pop()`: Dizinin sonundan eleman çıkarma
+  - `shift()`: Dizinin başından eleman çıkarma
+  - `unshift()`: Dizinin başına eleman ekleme
+  - `splice()`: Belirli bir konumdan eleman ekleme/çıkarma
+- **Array Özellikleri**:
+  - `length`: Dizinin eleman sayısı
+  - Index kullanımı
+
+#### 4. Döngüler 
+- **While Döngüsü**: Koşul sağlandığı sürece çalışır
+- **For Döngüsü**: Belirli sayıda tekrar için kullanılır
+- **Break ve Continue**: Döngü kontrolü
+- **Döngülerle Array İşlemleri**: Dizileri döngülerle gezme
+
+#### 5. Önemli Kavramlar
+- **Const ile Array Kullanımı**: 
+  - `const` ile tanımlanan array'lerin elemanları değiştirilebilir
+  - Ancak array başka bir array'e eşitlenemez
+- **Referans vs Değer**:
+  - Basit veri türleri değer olarak kopyalanır
+  - Karmaşık veri türleri (array, object) referans olarak kopyalanır
+
+#### 6. Kullanıcı Etkileşimi
+- **prompt()**: Kullanıcıdan veri alma
+- **console.log()**: Konsola çıktı verme
+- **alert()**: Kullanıcıya mesaj gösterme
+
+### 🎯 Projeler
+- **Gün 1 Projesi**: Javascript Temelleri
+- **Gün 2 Projesi**: Fonksiyonlar
+- **Gün 3 Projesi**: Arrayler ve Metodlar
+- **Gün 4 Projesi**: Döngüler
+
+[⬆️ Yukarı Dön](#icerik)
+
+---
