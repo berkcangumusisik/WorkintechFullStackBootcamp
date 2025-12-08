@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Nedir?</title>
+</head>
+<body>
+    <!-- 
+        HTML (HyperText Markup Language) Nedir?
+        
+        HTML, web sayfalarını oluşturmak için kullanılan işaretleme dilidir.
+        Programlama dili değil, işaretleme (markup) dilidir.
+        Web tarayıcılarına içeriğin nasıl görüntüleneceğini söyler.
+    -->
+
+    <!-- 
+        HTML Temel Yapısı:
+        
+        <!DOCTYPE html> - Belgenin HTML5 olduğunu belirtir
+        <html> - HTML belgesinin kök (root) elemanıdır
+        <head> - Sayfa hakkında meta bilgiler içerir (başlık, karakter seti, vb.)
+        <title> - Sayfanın başlığını belirtir.
+        <meta charset="UTF-8"> - Sayfa karakter setini UTF-8 olarak belirtir.
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> - Sayfanın mobil cihazlarda doğru şekilde görüntülenmesini sağlar.
+        meta tagları sayfa hakkında bilgileri tarayıcıya verir.
+        <body> - Sayfada görünen tüm içerik buraya yazılır
+    -->
+
+    <!-- 
+        HTML Etiketleri (Tags):
+        
+        HTML etiketleri açılış ve kapanış etiketlerinden oluşur
+        Örnek: <p>Bu bir paragraftır</p>
+        
+        Bazı etiketler self-closing'dir (kendi kendini kapatır)
+        Örnek: <img src="resim.jpg" alt="Açıklama">
+    -->
+
+    <!-- 
+        Temel HTML Etiketleri:
+    -->
+
+    <!-- Başlık Etiketleri (h1-h6) -->
+    <h1>En Büyük Başlık (h1)</h1>
+    <h2>İkinci Seviye Başlık (h2)</h2>
+    <h3>Üçüncü Seviye Başlık (h3)</h3>
+    <h4>Dördüncü Seviye Başlık (h4)</h4>
+    <h5>Beşinci Seviye Başlık (h5)</h5>
+    <h6>En Küçük Başlık (h6)</h6>
+
+    <!-- Paragraf Etiketi -->
+    <p>Bu bir paragraftır. Yazıları paragraf halinde göstermek için kullanılır.</p>
+
+    <!-- Resim Etiketi src attribute'u ile resmin adresini belirtir. alt attribute'u ile resmin açıklamasını belirtir. -->
+    <img src="resim.jpg" alt="Resim açıklaması">
+
+    <!-- Link (Bağlantı) Etiketi rel attribute'u ile bağlantının tipini belirtir. a etiketi ile bağlantıyı oluşturur. href attribute'u ile bağlantının adresini belirtir. -->
+    <link rel="stylesheet" href="style.css">
+    <a href="https://www.example.com">Bu bir bağlantıdır</a>
+    <a href="https://www.w3schools.com">Bu bir linktir</a>
+    <!--Verilen html kodunda, "Melbourne" kelimesini bir linke dönüştürün. Adres olarak https://tr.wikipedia.org/wiki/Melbourne kullanın.-->
+    <p><a href="https://tr.wikipedia.org/wiki/Melbourne ">Melbourne</a>, Avustralya'nın en kalabalık ikinci şehridir.</p>
+    <!--target attribute'u ile bağlantının açılacağı pencereyi belirtir. _blank yeni pencerede açar. _self aynı pencerede açar. _parent üst pencerede açar. _top en üst pencerede açar.-->
+
+    <!-- Liste Etiketleri -->
+    <!-- Sırasız Liste (ul - unordered list) -->
+    <ul>
+        <li>Liste öğesi 1</li>
+        <li>Liste öğesi 2</li>
+        <li>Liste öğesi 3</li>
+    </ul>
+
+    <!-- Sıralı Liste (ol - ordered list) -->
+    <ol>
+        <li>Birinci öğe</li>
+        <li>İkinci öğe</li>
+        <li>Üçüncü öğe</li>
+    </ol>
+
+</body>
+</html>
+

@@ -1,0 +1,7 @@
+/* h1 etiketi için stil tanımlaması */
+h1{
+    /* color: Yazı rengini belirler. brown (kahverengi) olarak ayarlanmış */
+    color: brown;
+    /* font-size: Yazı boyutunu belirler. 20 piksel olarak ayarlanmış */
+    font-size: 20px; 
+}
