@@ -5,3 +5,17 @@ h1{
     /* font-size: Yazı boyutunu belirler. 20 piksel olarak ayarlanmış */
     font-size: 20px; 
 }
+
+li{
+    font-weight: bold; /* Yazıyı kalın yapar. */
+}
+
+/* id selector ile stil tanımlaması */
+#marmara-link{
+    text-decoration: none; /* Metni altını çizmez. */
+}
+
+/* class selector ile stil tanımlaması */
+.title{
+    color:purple;
+}
