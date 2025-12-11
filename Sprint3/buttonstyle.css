@@ -1,0 +1,78 @@
+.tweet-button{
+    background-color: #1DA1F2;
+    padding: 15px 75px 15px 75px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 30px;
+    border: 2px solid #1DA1F2;
+}
+
+/**hover : mouse ile üzerine gelindiğinde stil değiştirir.*/
+.tweet-button:hover{
+    background-color: #198CD8;
+}
+
+/* 
+    CSS Pseudo-Class (Sözde Sınıf) Nedir?
+    
+    Pseudo-class, HTML elementlerinin belirli durumlarını veya konumlarını 
+    hedeflemek için kullanılan özel seçicilerdir. İki nokta üst üste (:) 
+    ile başlarlar.
+    
+    Yaygın Kullanılan Pseudo-Class'lar:
+    
+    1. Kullanıcı Etkileşimi (User Action):
+       - :hover - Mouse ile üzerine gelindiğinde
+       - :active - Tıklandığı anda (mouse basılı tutulduğunda)
+       - :focus - Element odaklandığında (input'a tıklandığında)
+       - :visited - Ziyaret edilmiş linkler için
+    
+    2. Yapısal Pseudo-Class'lar:
+       - :first-child - İlk çocuk element
+       - :last-child - Son çocuk element
+       - :nth-child(n) - n. sıradaki çocuk element
+       - :nth-of-type(n) - Belirli türdeki n. element
+    
+    3. Form Durumları:
+       - :checked - İşaretlenmiş checkbox/radio button
+       - :disabled - Devre dışı bırakılmış elementler
+       - :enabled - Aktif elementler
+       - :required - Zorunlu form alanları
+    
+    4. Diğer Pseudo-Class'lar:
+       - :not(selector) - Belirtilen selector dışındaki elementler
+       - :empty - İçeriği olmayan elementler
+       - :root - Kök element (genellikle <html>)
+    
+    Örnek Kullanımlar:
+    
+    a:hover {
+        color: red;
+        text-decoration: underline;
+    }
+    
+    button:active {
+        transform: scale(0.95);
+    }
+    
+    input:focus {
+        border-color: blue;
+        outline: none;
+    }
+    
+    li:first-child {
+        font-weight: bold;
+    }
+    
+    li:nth-child(odd) {
+        background-color: #f0f0f0;
+    }
+    
+    input:checked {
+        background-color: green;
+    }
+    
+    Not: Pseudo-class'lar, JavaScript kullanmadan dinamik stiller 
+    oluşturmamızı sağlar ve kullanıcı deneyimini iyileştirir.
+*/

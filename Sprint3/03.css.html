@@ -74,8 +74,208 @@
              Örnek: * { margin: 0; } - Tüm elementleri seçer
        
     -->
-        
 
+    <!-- 
+        CSS Inheritance (Kalıtım) Nedir?
+        
+        Inheritance, CSS'de bazı stil özelliklerinin üst (parent) elementten 
+        alt (child) elementlere otomatik olarak aktarılması anlamına gelir.
+        
+        Kalıtım Olan Özellikler:
+        - color (yazı rengi)
+        - font-family (yazı tipi)
+        - font-size (yazı boyutu)
+        - font-weight (yazı kalınlığı)
+        - line-height (satır yüksekliği)
+        - text-align (metin hizalama)
+        
+        Kalıtım Olmayan Özellikler:
+        - margin (dış boşluk)
+        - padding (iç boşluk)
+        - border (kenarlık)
+        - background (arka plan)
+        - width/height (genişlik/yükseklik)
+        
+        Örnek:
+        <div style="color: red; font-size: 16px;">
+            <p>Bu paragraf üst div'den color ve font-size özelliklerini miras alır.</p>
+        </div>
+    -->
+
+    <!-- 
+        Browser Stilleri (User Agent Stylesheet) Nedir?
+        
+        Browser stilleri, web tarayıcılarının HTML elementlerine otomatik olarak 
+        uyguladığı varsayılan CSS stilleridir. Her tarayıcı (Chrome, Firefox, Safari, vb.) 
+        kendi varsayılan stillerini içerir.
+        
+        Örnekler:
+        - <h1> etiketleri varsayılan olarak büyük ve kalın görünür
+        - <p> etiketleri varsayılan olarak üst ve alt margin'e sahiptir
+        - <a> etiketleri varsayılan olarak mavi ve altı çizili görünür
+        - <ul> ve <ol> listeleri varsayılan olarak sol padding'e sahiptir
+        
+        Neden Önemlidir?
+        - Farklı tarayıcılar farklı varsayılan stiller kullanabilir
+        - Bu durum web sitenizin farklı tarayıcılarda farklı görünmesine neden olabilir
+        
+        Çözüm:
+        - CSS Reset: Tüm browser stillerini sıfırlar
+          Örnek: * { margin: 0; padding: 0; }
+        
+        - CSS Normalize: Browser stilleri arasındaki tutarsızlıkları düzeltir
+          (Normalize.css gibi hazır kütüphaneler kullanılabilir)
+        
+        Örnek Browser Stilleri:
+        h1 { 
+            display: block;
+            font-size: 2em;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+            font-weight: bold;
+        }
+        
+        p {
+            display: block;
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+    -->
+    <!-- 
+        CSS Selector'lerde Genellik-Özellik (Specificity) Kavramı
+        
+        CSS'de birden fazla kural aynı elemente uygulandığında, hangi kuralın 
+        öncelikli olacağını belirleyen bir sistem vardır. Bu sisteme "specificity" 
+        (özgüllük/özellik) denir.
+        
+        Öncelik Sırası (En Güçlüden En Zayıfa):
+        1. !important (en güçlü - kullanımı önerilmez)
+        2. Inline styles (style="...")
+        3. ID selector (#id)
+        4. Class selector (.class), attribute selector ([type="text"]), pseudo-class (:hover)
+        5. Element selector (div, p, h1)
+        6. Universal selector (*)
+        
+        Specificity Hesaplama:
+        - Inline style: 1000 puan
+        - ID selector: 100 puan
+        - Class/attribute/pseudo-class: 10 puan
+        - Element selector: 1 puan
+        
+        
+        Best Practice (En İyi Uygulama):
+        - !important kullanımından kaçının
+        - Mümkün olduğunca class selector kullanın
+        - ID selector'leri sadece gerektiğinde kullanın
+        - Inline style kullanımını minimize edin
+        - Selector'leri gereksiz yere karmaşık hale getirmeyin
+        - Daha sonra gelen kural daha yüksek önceliğe sahiptir.
+    -->
+        
+    <!-- 
+        CSS Kutu Modeli (Box Model)
+        
+        CSS'de her HTML elementi bir kutu olarak düşünülür. Bu kutu modeli, 
+        elementin boyutunu ve etrafındaki boşlukları kontrol etmemizi sağlar.
+        
+        Kutu Modeli Bileşenleri (İçten Dışa Doğru):
+        
+        1. Content (İçerik): 
+           - Elementin gerçek içeriği (metin, resim vb.)
+           - width ve height özellikleri ile boyutlandırılır
+        
+        2. Padding (İç Boşluk):
+           - İçerik ile border arasındaki boşluk
+           - Elementin arka plan rengi padding alanını da kapsar
+           - padding-top, padding-right, padding-bottom, padding-left
+           - Kısayol: padding: 10px; (tüm yönler)
+           - Kısayol: padding: 10px 20px; (üst-alt, sağ-sol)
+           - Kısayol: padding: 10px 20px 15px 25px; (üst, sağ, alt, sol - saat yönünde)
+        
+        3. Border (Kenarlık):
+           - Padding ile margin arasındaki çizgi/kenarlık
+           - border-width, border-style, border-color
+           - Kısayol: border: 2px solid black;
+           - border-top, border-right, border-bottom, border-left ile ayrı ayrı ayarlanabilir
+        
+        4. Margin (Dış Boşluk):
+           - Elementin dışındaki boşluk, diğer elementlerle arasındaki mesafe
+           - Arka plan rengi margin alanını kapsamaz (şeffaftır)
+           - margin-top, margin-right, margin-bottom, margin-left
+           - Kısayol kullanımı padding ile aynıdır
+           - margin: auto; ile yatay ortalama yapılabilir
+        
+        Box-Sizing Özelliği:
+        
+        - box-sizing: content-box; (varsayılan)
+          width ve height sadece içeriğe uygulanır
+          Toplam genişlik = width + padding + border + margin
+        
+        - box-sizing: border-box; (önerilen)
+          width ve height, içerik + padding + border'ı kapsar
+          Toplam genişlik = width + margin
+          Bu kullanım boyutlandırmayı daha öngörülebilir hale getirir
+        
+        Örnek:
+        .box {
+            width: 300px;              /* İçerik genişliği */
+            height: 200px;             /* İçerik yüksekliği */
+            padding: 20px;             /* İç boşluk (her yönde 20px) */
+            border: 5px solid black;   /* Kenarlık */
+            margin: 10px;              /* Dış boşluk */
+            box-sizing: border-box;    /* Border-box modeli */
+        }
+        
+        content-box ile toplam genişlik: 300 + (20*2) + (5*2) = 350px
+        border-box ile toplam genişlik: 300px (padding ve border dahil)
+        
+        Best Practice:
+        - Tüm elementler için border-box kullanmak yaygın bir uygulamadır:
+          * { box-sizing: border-box; }
+        - Margin collapse (margin çökmesi) durumuna dikkat edin
+        - Negatif margin değerleri kullanılabilir ama dikkatli olunmalıdır
+    -->
+
+
+    <!-- 
+        DIV ve SPAN Elementleri
+        
+        HTML'de içerik gruplamak ve stil uygulamak için kullanılan iki temel container (kapsayıcı) elementtir.
+        
+        1. DIV (Division - Bölüm):
+           - Block-level (blok seviyesi) bir elementtir
+           - Yeni bir satırda başlar ve tüm genişliği kaplar
+           - Diğer block ve inline elementleri içerebilir
+           - Sayfa düzenini bölümlere ayırmak için kullanılır
+           - Varsayılan olarak width: 100% (tam genişlik)
+           - Üst ve alt margin/padding alabilir
+        
+        2. SPAN:
+           - Inline (satır içi) bir elementtir
+           - Yeni satır oluşturmaz, içerik akışında kalır
+           - Sadece içeriği kadar yer kaplar
+           - Genellikle metin içinde küçük bölümleri stillemek için kullanılır
+           - width ve height özellikleri çalışmaz (display değiştirilmedikçe)
+           - Üst ve alt margin/padding tam olarak uygulanmaz
+        
+        Temel Farklar:
+        
+        DIV:
+        - display: block;
+        - Tam satır kaplar
+        - width, height ayarlanabilir
+        - Tüm margin ve padding çalışır
+        - Büyük içerik blokları için
+        
+        SPAN:
+        - display: inline;
+        - Sadece içerik kadar yer kaplar
+        - width, height çalışmaz
+        - Sadece yatay margin/padding tam çalışır
+        - Küçük metin parçaları için
+        
+        
+          -->
 </body>
 </html>
 

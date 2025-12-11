@@ -13,9 +13,36 @@ li{
 /* id selector ile stil tanımlaması */
 #marmara-link{
     text-decoration: none; /* Metni altını çizmez. */
+    font-weight: bold;
 }
 
 /* class selector ile stil tanımlaması */
 .title{
     color:purple;
+}
+
+.intro{
+    font-size: 20px;
+    line-height: 1.5; /* satır yüksekliği */
+    font-weight: bold; /* yazı kalınlığı, normal, bold, italic, underline, line-through */
+    text-align: justify; /* metin hizalama : left, right, center, justify */
+    color: blue;
+}
+
+li:first-child{
+    color: orange;
+}
+
+
+li{
+    border-bottom: 1px solid black;
+}
+
+li:last-child{
+    border-bottom: 0;
+}
+
+.dark{
+    background-color: black;
+    color: white;
 }
