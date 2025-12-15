@@ -274,7 +274,61 @@
         - Sadece yatay margin/padding tam çalışır
         - Küçük metin parçaları için
         
+          CSS Display Property (Görüntüleme Özelliği)
+          
+          Display özelliği, bir HTML elementinin nasıl görüntüleneceğini ve sayfa düzeninde nasıl davranacağını belirler.
+          
+          Temel Display Değerleri:
+          
+          1. display: block;
+             - Element yeni bir satırda başlar
+             - Tüm genişliği kaplar (width: 100%)
+             - width, height, margin, padding tüm yönlerde çalışır
+             - Örnekler: div, p, h1-h6, ul, li, section, header, footer
+             - Dikey olarak sıralanır
+          
+          2. display: inline;
+             - Element satır içinde kalır, yeni satır oluşturmaz
+             - Sadece içeriği kadar yer kaplar
+             - width ve height özellikleri çalışmaz
+             - Sadece yatay margin ve padding tam çalışır (üst/alt kısmen)
+             - Örnekler: span, a, strong, em, img
+             - Yatay olarak yan yana dizilir
+          
+          3. display: inline-block;
+             - Inline gibi yan yana dizilir
+             - Block gibi width, height, margin, padding tüm yönlerde çalışır
+             - En iyi iki dünyanın birleşimi
+             - Menüler ve butonlar için idealdir
+          
+          4. display: none;
+             - Element tamamen gizlenir
+             - Sayfa düzeninde yer kaplamaz
+             - visibility: hidden; ile farkı: visibility gizler ama yer kaplar
+          
+          5. display: flex;
+             - Modern layout sistemi
+             - Çocuk elementleri esnek şekilde hizalar
+             - Responsive tasarım için güçlü araç
+          
+          6. display: grid;
+             - İki boyutlu layout sistemi
+             - Satır ve sütunlarla karmaşık düzenler oluşturur
+          
+          7. display: inline-flex / inline-grid;
+             - Flex veya grid container'ı inline gibi davranır
+          
         
+          Display Değiştirmenin Etkileri:
+          - Element'in davranışı tamamen değişir
+          - Layout hesaplamaları yeniden yapılır
+          - Diğer CSS özelliklerinin çalışma şekli değişebilir
+          
+          Best Practices:
+          - Her element'in varsayılan display değerini bilin
+          - Layout için display: flex veya grid tercih edin
+          - display: none yerine visibility veya opacity kullanmayı düşünün (animasyonlar için)
+          - inline-block kullanırken whitespace sorununa dikkat edin
           -->
 </body>
 </html>

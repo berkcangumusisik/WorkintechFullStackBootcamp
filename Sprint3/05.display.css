@@ -1,0 +1,202 @@
+/* Display Property - Menu Styling Example
+   
+   Bu örnekte, display özelliklerinin nasıl kullanıldığını görüyoruz:
+   
+   1. .menu container:
+      - background-color: purple; (mor arka plan)
+      - padding: 20px; (içerik ile kenar arası boşluk)
+      - display: flex; (çocuk elementleri esnek şekilde hizalar)
+      - flex-direction: column; (elementleri dikey olarak sıralar)
+      - align-items: center; (elementleri yatayda ortalar)
+      - gap: 10px; (elementler arası boşluk)
+      
+   2. .menu a (link elementleri):
+      - background-color: white; (beyaz arka plan)
+      - padding: 10px; (link içeriği etrafında boşluk)
+      
+   Display: flex kullanımı:
+   - Varsayılan olarak inline olan <a> elementleri, flex container içinde
+     block gibi davranır ve width/height/padding/margin tam çalışır
+   - flex-direction: column; ile elementler dikey olarak sıralanır
+   - align-items: center; ile elementler ortada hizalanır
+   - gap ile elementler arası düzenli boşluk sağlanır
+   
+   Bu, modern web tasarımında dikey menü oluşturmanın en yaygın yöntemidir.
+
+   Flex Container ve Flex Item Kavramları:
+   
+   FLEX CONTAINER (Esnek Kapsayıcı):
+   - display: flex; veya display: inline-flex; özelliği verilen element
+   - Doğrudan çocuk elementlerini (flex items) kontrol eder
+   - Flex container özellikleri:
+     * flex-direction: row | column | row-reverse | column-reverse
+       (çocukların dizilim yönü)
+     * justify-content: flex-start | center | flex-end | space-between | space-around
+       (ana eksen boyunca hizalama)
+     * align-items: flex-start | center | flex-end | stretch | baseline
+       (çapraz eksen boyunca hizalama)
+     * flex-wrap: nowrap | wrap | wrap-reverse
+       (çocuklar taşarsa alt satıra geçsin mi?)
+     * gap: 10px; (çocuklar arası boşluk)
+   
+   FLEX ITEM (Esnek Öğe):
+   - Flex container'ın doğrudan çocuğu olan elementler
+   - Otomatik olarak flex item haline gelir
+   - Flex item özellikleri:
+     * flex-grow: 0; (boş alanı ne kadar kaplayacak, varsayılan 0)
+     * flex-shrink: 1; (küçülme oranı, varsayılan 1)
+     * flex-basis: auto; (başlangıç boyutu)
+     * flex: 1; (flex-grow, flex-shrink, flex-basis kısayolu)
+     * align-self: auto | flex-start | center | flex-end
+       (kendini farklı hizala)
+     * order: 0; (görsel sıralama, varsayılan 0)
+   
+   Örneğimizde:
+   - .menu → FLEX CONTAINER (display: flex; ile)
+   - .menu a → FLEX ITEMS (menu'nun doğrudan çocukları)
+   
+   Flex kullanmanın avantajları:
+   - Kolay hizalama ve dağıtım
+   - Responsive tasarım için ideal
+   - Eski float ve position yöntemlerinden çok daha güçlü
+   - Dikey ve yatay ortalama çok kolay
+
+
+   FLEX GROW, FLEX SHRINK, FLEX BASIS - Detaylı Açıklama:
+   
+   Bu üç özellik, flex item'ların boyutlarının nasıl hesaplanacağını belirler.
+   Genellikle "flex" kısayolu ile birlikte kullanılır: flex: grow shrink basis;
+   
+   1. FLEX-BASIS (Temel Boyut):
+      - Flex item'ın başlangıç boyutunu belirler
+      - width/height'tan önce uygulanır
+      - Değerler: auto | 0 | 100px | 50% vb.
+      - Varsayılan: auto (içeriğe göre boyutlanır)
+      
+      Örnekler:
+      flex-basis: auto;     → içerik kadar yer kaplar
+      flex-basis: 0;        → içerik göz ardı edilir, sadece grow/shrink etkili
+      flex-basis: 200px;    → 200px'den başlar
+      flex-basis: 50%;      → container'ın %50'si kadar
+   
+   2. FLEX-GROW (Büyüme Oranı):
+      - Boş alan varsa, item ne kadar büyüyecek?
+      - Değer: sayı (0, 1, 2, 3...)
+      - Varsayılan: 0 (büyümez)
+      - Oran olarak çalışır
+      
+      Örnekler:
+      flex-grow: 0;  → hiç büyümez (varsayılan)
+      flex-grow: 1;  → boş alanı eşit paylaşır
+      flex-grow: 2;  → diğerlerinden 2 kat daha fazla büyür
+      
+      Senaryo: 3 item var, container 900px
+      - Item1: flex-grow: 1; → 300px alır
+      - Item2: flex-grow: 1; → 300px alır
+      - Item3: flex-grow: 1; → 300px alır
+      
+      Senaryo: 3 item var, container 900px
+      - Item1: flex-grow: 1; → 150px alır (1/6)
+      - Item2: flex-grow: 2; → 300px alır (2/6)
+      - Item3: flex-grow: 3; → 450px alır (3/6)
+   
+   3. FLEX-SHRINK (Küçülme Oranı):
+      - Yer yoksa, item ne kadar küçülecek?
+      - Değer: sayı (0, 1, 2, 3...)
+      - Varsayılan: 1 (küçülür)
+      - Oran olarak çalışır
+      
+      Örnekler:
+      flex-shrink: 0;  → hiç küçülmez
+      flex-shrink: 1;  → normal küçülür (varsayılan)
+      flex-shrink: 2;  → diğerlerinden 2 kat daha fazla küçülür
+      
+      Senaryo: Container 300px, 3 item her biri 150px (toplam 450px - taşıyor!)
+      - Item1: flex-shrink: 1; → 100px olur
+      - Item2: flex-shrink: 1; → 100px olur
+      - Item3: flex-shrink: 1; → 100px olur
+      
+      Senaryo: Container 300px, 3 item her biri 150px
+      - Item1: flex-shrink: 0; → 150px kalır (küçülmez)
+      - Item2: flex-shrink: 1; → 75px olur
+      - Item3: flex-shrink: 1; → 75px olur
+   
+   FLEX KISAYOLU:
+   flex: grow shrink basis;
+   
+   Yaygın kullanımlar:
+   flex: 1;              → flex: 1 1 0; (eşit paylaş, basis 0)
+   flex: auto;           → flex: 1 1 auto; (eşit paylaş, içerik boyutundan başla)
+   flex: none;           → flex: 0 0 auto; (hiç değişme)
+   flex: 0 0 200px;      → 200px sabit boyut
+   flex: 2;              → flex: 2 1 0; (2 kat daha fazla büyü)
+   
+   Pratik Örnekler:
+   
+   Örnek 1: Sidebar ve Main Content
+   .sidebar { flex: 0 0 250px; }    → 250px sabit genişlik
+   .main { flex: 1; }                → kalan alanı kapla
+   
+   Örnek 2: Eşit Genişlikte Kolonlar
+   .column { flex: 1; }              → her kolon eşit genişlikte
+   
+   Örnek 3: Farklı Oranlarda Kolonlar
+   .col1 { flex: 1; }                → 1 birim
+   .col2 { flex: 2; }                → 2 birim (2 kat geniş)
+   .col3 { flex: 1; }                → 1 birim
+   
+   Örnek 4: Sabit Boyutlu Item
+   .fixed { flex: 0 0 auto; }        → içerik kadar, değişmez
+   
+   İpuçları:
+   - flex: 1; en yaygın kullanımdır (eşit dağıtım)
+   - flex-basis: 0; ile grow daha öngörülebilir çalışır
+   - flex-shrink: 0; ile item'ın küçülmesini engelleyebilirsiniz
+   - Responsive tasarımda flex-wrap ile birlikte kullanın
+
+
+   FLEX-WRAP (Sarma Özelliği):
+   
+   Flex-wrap, flex item'ların container'a sığmadığında ne yapacağını belirler.
+   
+   Değerler:
+   - nowrap (varsayılan): Tüm item'lar tek satırda kalır, küçülür/taşar
+   - wrap: Item'lar alt satıra geçer (soldan sağa, yukarıdan aşağıya)
+   - wrap-reverse: Item'lar alt satıra geçer ama ters sırada (aşağıdan yukarıya)
+   
+   Örnekler:
+   flex-wrap: nowrap;     → tek satırda kal, sığmazsa küçült/taşır
+   flex-wrap: wrap;       → sığmazsa alt satıra geç
+   flex-wrap: wrap-reverse; → sığmazsa alt satıra geç ama ters sırada
+   
+   Kullanım Senaryoları:
+   - Responsive menüler (ekran küçülünce alt satıra geçsin)
+   - Kart dizileri (grid benzeri düzen)
+   - Etiket listeleri (tag clouds)
+   - Ürün listeleri
+   
+   flex-direction ile birlikte:
+   - flex-direction: row; + flex-wrap: wrap; → yatay dizilim, alt satıra geçer
+   - flex-direction: column; + flex-wrap: wrap; → dikey dizilim, yan sütuna geçer
+   
+   İpuçları:
+   - Responsive tasarımda çok kullanışlıdır
+   - Media query'lerle birlikte kullanılabilir
+   - align-content ile çok satırlı hizalama yapılabilir
+*/
+
+.menu {
+    background-color: purple;
+    padding: 20px;
+    display: flex; /* çocuk elementleri esnek şekilde hizalar */
+    flex-direction: column; /* elementleri dikey olarak sıralar */
+    align-items: center; /* elementleri yatayda ortalar */
+    gap: 10px; /* elementler arası boşluk */
+    flex-wrap: wrap; /* elementler taşarsa alt satıra geçsin */
+}
+
+.menu a {
+    background-color: white;
+    padding: 10px;
+    flex-grow: 1;
+}

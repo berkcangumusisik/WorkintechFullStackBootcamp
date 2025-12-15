@@ -1,0 +1,81 @@
+/* RESET.CSS - Tarayıcı Varsayılan Stillerini Sıfırlama
+   
+   Reset.css Nedir?
+   - Farklı tarayıcılar (Chrome, Firefox, Safari, Edge) HTML elementlerine
+     farklı varsayılan stiller uygular
+   - Bu farklılıklar, web sitenizin her tarayıcıda farklı görünmesine neden olur
+   - Reset.css, tüm tarayıcıların varsayılan stillerini sıfırlayarak
+     temiz bir başlangıç noktası sağlar
+   
+   Neden Kullanılır?
+   1. Tarayıcılar Arası Tutarlılık (Cross-Browser Consistency):
+      - Her tarayıcıda aynı görünüm
+      - Beklenmedik stil farklılıklarını önler
+   
+   2. Kontrol:
+      - Tüm stilleri sıfırdan kendiniz belirlersiniz
+      - Tarayıcının varsayılan stilleri sizi şaşırtmaz
+   
+   3. Öngörülebilirlik:
+      - margin, padding gibi değerler her yerde aynı
+      - Daha kolay CSS yazarsınız
+   
+   Yaygın Tarayıcı Varsayılan Stilleri:
+   - body: margin 8px (Chrome, Firefox)
+   - h1-h6: farklı font-size ve margin değerleri
+   - ul, ol: padding-left ve margin
+   - p: margin-top ve margin-bottom
+   - button, input: farklı border ve padding
+   
+   Reset.css Alternatifleri:
+   - Normalize.css: Sıfırlamak yerine tutarlı hale getirir
+   - CSS Remedy: Modern bir yaklaşım
+   - Kendi özel reset'iniz
+   
+   Kullanım:
+   <link rel="stylesheet" href="reset.css">
+   <link rel="stylesheet" href="style.css">
+   
+   Not: reset.css her zaman diğer CSS dosyalarından ÖNCE yüklenmelidir!
+*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 16px;
+}
+
+.content {
+    width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body {
+    font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 20px;
+    line-height: 32px;
+    color: rgb(36, 36, 36);
+}
+
+p, ul {
+    margin-top: 40px;
+}
+
+h1 {
+    font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 42px;
+    line-height: 52px;
+    margin-top: 50px;
+}
+
+h2 {
+    font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    line-height: 32px;
+    margin-top: 40px;
+}
