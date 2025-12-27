@@ -330,6 +330,367 @@
           - display: none yerine visibility veya opacity kullanmayı düşünün (animasyonlar için)
           - inline-block kullanırken whitespace sorununa dikkat edin
           -->
+
+
+          <!--
+          CSS Birim Türleri: %, vw, vh
+          
+          1. % (Yüzde - Percentage)
+             - Parent (üst) element'e göre hesaplanır
+             - width: 50%; → Parent'ın genişliğinin %50'si
+             - height: 50%; → Parent'ın yüksekliğinin %50'si
+             - margin, padding için de kullanılabilir
+             - Responsive tasarım için çok kullanışlı
+             
+             Örnek:
+             .parent { width: 800px; }
+             .child { width: 50%; } → 400px olur
+          
+          2. vw (Viewport Width - Görüntü Alanı Genişliği)
+             - Tarayıcı penceresinin genişliğine göre hesaplanır
+             - 1vw = Viewport genişliğinin %1'i
+             - 100vw = Tam ekran genişliği
+             - Parent element'ten bağımsızdır
+             - Responsive tasarım için idealdir
+             
+             Örnek:
+             width: 50vw; → Ekran genişliğinin yarısı
+             font-size: 5vw; → Ekran genişliğine göre yazı boyutu
+          
+          3. vh (Viewport Height - Görüntü Alanı Yüksekliği)
+             - Tarayıcı penceresinin yüksekliğine göre hesaplanır
+             - 1vh = Viewport yüksekliğinin %1'i
+             - 100vh = Tam ekran yüksekliği
+             - Full-screen bölümler için mükemmel
+             
+             Örnek:
+             height: 100vh; → Tam ekran yüksekliği
+             min-height: 50vh; → En az yarım ekran
+          
+          
+          Farkları ve Kullanım Alanları:
+          
+          % (Yüzde):
+          - Parent element'e bağlıdır
+          - İç içe elementlerde kullanışlı
+          - Grid sistemleri için ideal
+          - Örnek: .container { width: 80%; }
+          
+          vw (Viewport Width):
+          - Ekran genişliğine bağlıdır
+          - Parent'tan bağımsız
+          - Responsive tipografi için harika
+          - Örnek: font-size: 4vw;
+          
+          vh (Viewport Height):
+          - Ekran yüksekliğine bağlıdır
+          - Hero sections için mükemmel
+          - Full-page layouts için ideal
+          - Örnek: .hero { height: 100vh; }
+          
+          
+          Dikkat Edilmesi Gerekenler:
+          
+          - vw ve vh mobil cihazlarda adres çubuğu ile sorun yaratabilir
+          - % kullanırken parent'ın boyutunu kontrol edin
+          - vw ile yazı boyutu ayarlarken min/max değerleri kullanın
+          - 100vw yatay scroll bar oluşturabilir (overflow-x: hidden; gerekebilir)
+          
+          
+          
+          Diğer Viewport Birimleri:
+          - vmin: vw ve vh'den küçük olanı
+          - vmax: vw ve vh'den büyük olanı
+          - Örnek: font-size: 3vmin; (her zaman okunabilir kalır)
+
+
+
+          em ve rem Birimleri:
+          
+          em (Element):
+          - Parent element'in font-size'ına göre hesaplanır
+          - İç içe kullanımlarda çarpan etkisi yapar
+          - Esnek ve dinamik boyutlandırma için kullanılır
+          
+          Örnek:
+          .parent { font-size: 16px; }
+          .child { font-size: 2em; } → 32px (16px × 2)
+          .grandchild { font-size: 2em; } → 64px (32px × 2) - Çarpan etkisi!
+          
+          padding: 1em; → Font-size'a göre padding
+          margin: 0.5em; → Font-size'ın yarısı kadar margin
+          
+          
+          rem (Root Element):
+          - Root element'in (html) font-size'ına göre hesaplanır
+          - İç içe kullanımlarda çarpan etkisi YAPMAZ
+          - Tutarlı boyutlandırma için tercih edilir
+          - Varsayılan: 1rem = 16px (tarayıcı varsayılanı)
+          
+          Örnek:
+          html { font-size: 16px; }
+          .element1 { font-size: 2rem; } → 32px (16px × 2)
+          .element2 { font-size: 1.5rem; } → 24px (16px × 1.5)
+          .nested { font-size: 2rem; } → Yine 32px (parent'tan etkilenmez!)
+          
+          
+          em vs rem Karşılaştırması:
+          
+          em kullanımı:
+          - Component içi oransal boyutlandırma
+          - padding, margin gibi spacing'ler
+          - İç içe elementlerde dikkatli olun!
+          
+          rem kullanımı:
+          - Global font-size ayarları
+          - Tutarlı spacing sistemi
+          - Responsive tasarım için daha güvenli
+          - Çoğu modern projede tercih edilir
+          
+          
+          Pratik Kullanım:
+          html { font-size: 16px; }
+          
+          h1 { font-size: 2.5rem; } → 40px
+          p { font-size: 1rem; } → 16px
+          small { font-size: 0.875rem; } → 14px
+          
+          .button {
+              padding: 0.5em 1em; → Font-size'a göre padding (em)
+              font-size: 1rem; → Root'a göre font (rem)
+          }
+          -->
+
+          <h2>Media Queries (Medya Sorguları)</h2>
+          <!--
+          Media Query Nedir?
+          - CSS'de farklı cihaz ve ekran boyutları için farklı stiller uygulamaya yarar
+          - Responsive (duyarlı) web tasarımının temelidir
+          - Ekran genişliği, yüksekliği, yönü, çözünürlüğü gibi özelliklere göre stil değiştirir
+          
+          Temel Sözdizimi:
+          @media media-type and (condition) {
+              /* CSS kuralları */
+          }
+          
+          Media Types (Medya Türleri):
+          - all: Tüm cihazlar (varsayılan)
+          - screen: Ekranlar (bilgisayar, tablet, telefon)
+          - print: Yazdırma
+          - speech: Ekran okuyucular
+          
+          
+          Yaygın Kullanım - Ekran Genişliği:
+          
+          /* Mobil öncelikli yaklaşım (Mobile First) */
+          /* Varsayılan stiller mobil için */
+          .container { width: 100%; }
+          
+          /* Tablet ve üzeri */
+          @media (min-width: 768px) {
+              .container { width: 750px; }
+          }
+          
+          /* Desktop ve üzeri */
+          @media (min-width: 1024px) {
+              .container { width: 960px; }
+          }
+          
+          /* Geniş ekranlar */
+          @media (min-width: 1200px) {
+              .container { width: 1140px; }
+          }
+          
+          
+          Desktop Öncelikli Yaklaşım (Desktop First):
+          /* Varsayılan stiller desktop için */
+          .container { width: 1140px; }
+          
+          /* Tablet ve altı */
+          @media (max-width: 1024px) {
+              .container { width: 960px; }
+          }
+          
+          /* Mobil */
+          @media (max-width: 768px) {
+              .container { width: 100%; }
+          }
+          
+          
+          Yaygın Breakpoint'ler:
+          - 320px: Küçük telefonlar
+          - 480px: Telefonlar
+          - 768px: Tabletler
+          - 1024px: Küçük laptoplar
+          - 1200px: Desktoplar
+          - 1440px: Geniş ekranlar
+          
+          
+          Birden Fazla Koşul:
+          /* VE (and) operatörü */
+          @media (min-width: 768px) and (max-width: 1024px) {
+              /* Sadece tablet boyutları için */
+          }
+          
+          /* VEYA (,) operatörü */
+          @media (max-width: 480px), (min-width: 1200px) {
+              /* Mobil VEYA geniş ekranlar için */
+          }
+          
+          
+          Diğer Özellikler:
+          
+          /* Ekran yönü */
+          @media (orientation: portrait) {
+              /* Dikey mod */
+          }
+          
+          @media (orientation: landscape) {
+              /* Yatay mod */
+          }
+          
+          /* Çözünürlük */
+          @media (min-resolution: 2dppx) {
+              /* Retina ekranlar için */
+          }
+          
+          /* Karanlık mod */
+          @media (prefers-color-scheme: dark) {
+              body { background: #000; color: #fff; }
+          }
+          
+          
+          Pratik Örnek:
+          /* Mobil (varsayılan) */
+          .menu {
+              display: block;
+          }
+          
+          .menu-item {
+              display: block;
+              padding: 10px;
+          }
+          
+          /* Tablet ve üzeri */
+          @media (min-width: 768px) {
+              .menu {
+                  display: flex;
+              }
+              
+              .menu-item {
+                  display: inline-block;
+                  padding: 10px 20px;
+              }
+          }
+          
+          /* Desktop */
+          @media (min-width: 1024px) {
+              .menu-item {
+                  padding: 15px 30px;
+                  font-size: 18px;
+              }
+          }
+          
+          
+          Best Practices:
+          - Mobile-first yaklaşımı tercih edin (min-width kullanın)
+          - Mantıklı breakpoint'ler seçin (içeriğe göre)
+          - Gereksiz media query'lerden kaçının
+          - rem/em birimleri kullanın (px yerine)
+          - Test edin: Chrome DevTools, gerçek cihazlar
+          
+          
+          Viewport Meta Tag (HTML'de gerekli):
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          
+          Bu tag olmadan mobil cihazlar sayfayı küçültülmüş olarak gösterir!
+          -->
+
+          <!--
+          ORIENTATION (Yönlendirme):
+          
+          Cihazın yatay (landscape) veya dikey (portrait) konumda olup olmadığını kontrol eder.
+          
+          Sözdizimi:
+          @media (orientation: portrait) { }  /* Dikey mod */
+          @media (orientation: landscape) { } /* Yatay mod */
+          
+          
+          Örnek Kullanım:
+          /* Dikey modda (telefon normal tutulduğunda) */
+          @media (orientation: portrait) {
+              .container {
+                  width: 100%;
+                  flex-direction: column;
+              }
+              
+              .image {
+                  height: 300px;
+              }
+          }
+          
+          /* Yatay modda (telefon yan çevrildiğinde) */
+          @media (orientation: landscape) {
+              .container {
+                  flex-direction: row;
+              }
+              
+              .image {
+                  height: 200px;
+                  width: 50%;
+              }
+              
+              .sidebar {
+                  display: none; /* Yatayda yan menüyü gizle */
+              }
+          }
+          
+          
+          Genişlik ile Birlikte Kullanım:
+          /* Küçük ekranlarda yatay mod */
+          @media (max-width: 768px) and (orientation: landscape) {
+              .header {
+                  height: 60px; /* Yatayda header'ı küçült */
+              }
+              
+              .content {
+                  padding: 10px; /* Daha az padding */
+              }
+          }
+          
+          
+          Pratik Örnek - Video Player:
+          @media (orientation: landscape) {
+              .video-player {
+                  width: 100vw;
+                  height: 100vh;
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+              }
+          }
+          
+          @media (orientation: portrait) {
+              .video-player {
+                  width: 100%;
+                  height: auto;
+                  aspect-ratio: 16/9;
+              }
+          }
+          
+          
+          Ne Zaman Kullanılır:
+          - Video oynatıcılar (tam ekran deneyimi)
+          - Oyunlar (yatay mod zorunlu)
+          - Galeri görünümleri
+          - Mobil uygulamalar
+          
+          
+          Not: 
+          - Portrait: height > width (dikey)
+          - Landscape: width > height (yatay)
+          - Tablet ve telefonlarda çok kullanışlıdır
+          -->
 </body>
 </html>
 

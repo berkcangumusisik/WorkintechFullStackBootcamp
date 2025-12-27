@@ -46,3 +46,33 @@ li:last-child{
     background-color: black;
     color: white;
 }
+
+
+/* Media Queries - Responsive Tasarım */
+
+/* Mobil cihazlar için (max-width: 768px) */
+/* Ekran genişliği 768 piksel veya daha küçük olduğunda bu stiller uygulanır */
+@media (max-width: 768px) {
+    body {
+        /* Mobil cihazlarda yazı rengi beyaz */
+        color: white;
+        /* Mobil cihazlarda arka plan rengi siyah */
+        background-color: black;
+    }
+}
+
+/* Orientation (Yönlendirme) ve Genişlik Kombinasyonu */
+/* Ekran yatay konumda VE max-width 768px olduğunda */
+@media (orientation: landscape) and (max-width: 768px) {
+    /* img etiketleri için stil */
+    img {
+        /* Resim genişliği ekranın %50'si kadar olur */
+        width: 50%;
+    }
+    
+    /* h1 başlıkları için stil */
+    h1 {
+        /* Üst margin sıfırlanır (boşluk kaldırılır) */
+        margin-top: 0;
+    }
+}

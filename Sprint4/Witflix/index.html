@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witflix - Film İzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="assets/logo.svg" alt="Witflix Logo">
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link">Aksiyon</a>
+                <a href="#" class="nav-link">Drama</a>
+                <a href="#" class="nav-link">Komedi</a>
+                <a href="#" class="nav-link">Gerilim</a>
+            </nav>
+            <div class="header-right">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Ara...">
+                    <img src="assets/search-icon.svg" alt="Ara" class="search-icon">
+                </div>
+                <button class="icon-btn" aria-label="Bildirimler">
+                    <img src="assets/notification-icon.svg" alt="Bildirimler">
+                </button>
+                <button class="icon-btn user-btn" aria-label="Kullanıcı">
+                    <img src="assets/user-icon.svg" alt="Kullanıcı">
+                </button>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Menü">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="featured-movie" id="featuredMovie">
+            <div class="featured-container">
+                <div class="featured-info">
+                    <h1 class="featured-title" id="featuredTitle"></h1>
+                    <div class="featured-meta">
+                        <span class="rating" id="featuredRating"></span>
+                        <span class="age-restriction" id="featuredAge"></span>
+                        <span class="duration" id="featuredDuration"></span>
+                    </div>
+                    <p class="featured-description" id="featuredDescription"></p>
+                    <div class="featured-details">
+                        <div class="starring">
+                            <strong>Başrol Oyuncular:</strong>
+                            <span id="featuredStarring"></span>
+                        </div>
+                        <div class="tags">
+                            <strong>Etiketler:</strong>
+                            <span id="featuredTags"></span>
+                        </div>
+                    </div>
+                    <button class="play-btn" id="playBtn">► Şimdi Oynat</button>
+                </div>
+                <div class="featured-poster">
+                    <img id="featuredPoster" src="" alt="Film Posteri">
+                </div>
+            </div>
+        </section>
+
+        <section class="movie-section">
+            <div class="section-header">
+                <h2 class="section-title">Popüler Filmler</h2>
+                <a href="#" class="view-all">Tümünü Gör</a>
+            </div>
+            <div class="movie-grid" id="popularMovies"></div>
+        </section>
+
+        <section class="movie-section">
+            <div class="section-header">
+                <h2 class="section-title">Sizin İçin Önerilenler</h2>
+                <a href="#" class="view-all">Tümünü Gör</a>
+            </div>
+            <div class="movie-grid" id="recommendedMovies"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-logo">
+                <img src="assets/logo-footer.svg" alt="Witflix Logo">
+                <p class="footer-tagline">Sınırsız eğlence, sınırsız seçenekler</p>
+            </div>
+        </div>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">Hızlı Bağlantılar</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Ana Sayfa</a></li>
+                    <li><a href="#">Popüler Filmler</a></li>
+                    <li><a href="#">Yeni Eklenenler</a></li>
+                    <li><a href="#">Kategoriler</a></li>
+                    <li><a href="#">İzleme Listesi</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Yardım & Destek</h3>
+                <ul class="footer-links">
+                    <li><a href="#">SSS</a></li>
+                    <li><a href="#">İletişim</a></li>
+                    <li><a href="#">Canlı Destek</a></li>
+                    <li><a href="#">Hesap Ayarları</a></li>
+                    <li><a href="#">Abonelik Planları</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Yasal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Kullanım Şartları</a></li>
+                    <li><a href="#">Gizlilik Politikası</a></li>
+                    <li><a href="#">Çerez Politikası</a></li>
+                    <li><a href="#">Telif Hakları</a></li>
+                    <li><a href="#">Yasal Uyarılar</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Bizi Takip Edin</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <img src="assets/facebook-icon.svg" alt="Facebook">
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <img src="assets/twitter-icon.svg" alt="Twitter">
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <img src="assets/instagram-icon.svg" alt="Instagram">
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <img src="assets/youtube-icon.svg" alt="YouTube">
+                    </a>
+                </div>
+                <div class="app-buttons">
+                    <a href="#" class="app-btn">
+                        <img src="assets/appstore-icon.svg" alt="App Store">
+                        <div>
+                            <span class="app-btn-small">İndir</span>
+                            <span class="app-btn-large">App Store</span>
+                        </div>
+                    </a>
+                    <a href="#" class="app-btn">
+                        <img src="assets/googleplay-icon.svg" alt="Google Play">
+                        <div>
+                            <span class="app-btn-small">İndir</span>
+                            <span class="app-btn-large">Google Play</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Witflix. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
+
+
