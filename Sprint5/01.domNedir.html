@@ -1,0 +1,227 @@
+<!-- 
+1.1. DOM Nedir?
+
+DOM (Document Object Model), web tarayıcısının HTML belgesini JavaScript ile manipüle edilebilir 
+bir nesne yapısına dönüştürmesidir.
+
+Neden İhtiyaç Duyulur?
+- HTML statik bir dildir, yani sayfayı değiştirmek için dosyayı düzenleyip yeniden yüklememiz gerekir
+- Modern web siteleri dinamik ve interaktif olmalıdır (pop-up'lar, formlar, animasyonlar vb.)
+- Kullanıcı etkileşimlerine anında yanıt verebilmeliyiz
+
+DOM Nasıl Çalışır?
+1. Tarayıcı HTML dosyasını okur
+2. HTML'i bir JavaScript objesi ağacına (DOM Tree) dönüştürür
+3. JavaScript bu obje üzerinden HTML elementlerine erişir ve değiştirir
+4. Değişiklikler anında sayfaya yansır, HTML dosyasını düzenlemeye gerek kalmaz
+
+Örnek:
+- Bir butona tıklandığında renk değiştirme
+- Form gönderildiğinde doğrulama yapma
+- Dinamik içerik ekleme/çıkarma
+- Animasyonlar ve geçişler
+
+DOM sayesinde JavaScript ile HTML ve CSS'i dinamik olarak kontrol edebiliriz.
+
+
+1.2. Yapısı ve özellikleri
+
+Oluşturma süreci 2 aşamalı:
+
+1. her bir HTML tagını, onu temsil eden bir objeye dönüştürür. Bu objeye o HTML elemanının içindeki
+   yazı, classları ve diğer tüm HTML propertyleri yer alır.
+
+2. Bu objeleri, taglerin arasındaki parent-child ilişkisine göre ağaçca yerleştirir. HTML body gibi
+   elemanlar ağacın ana gövdesine yakın olur, bunların içindekiler ise ağacın daha üstlere dallarında
+   yer alır.
+
+DOM Ağacının Temel Özellikleri:
+
+- DOM ağacının en üst elemanı: sayfalardaki tüm HTML taglarını ve özellikleri temsil 
+  eden objelerdir.
+
+- DOM ağacının kullanım özellikleri temsil eder:
+  * Her HTML tagı bir node (düğüm) olarak temsil edilir
+  * Taglar arasındaki parent-child ilişkisi korunur
+  * Bu objelere DOM ağacındaki yerlerine göre node, 
+    yani düğüm denir
+
+- Bu düğümler DOM ağacındaki yerlerine göre farklı isimlere sahiptir:
+  * Root node: Ağacın en üstündeki düğüm (document objesi)
+  * Parent node: Başka düğümleri içeren düğüm
+  * Child node: Bir parent düğümün içindeki düğüm
+  * Sibling node: Aynı parent'a sahip düğümler
+  * Leaf node: İçinde başka düğüm olmayan düğümler
+
+- Taglar HTML dosyasında bulundukları yere göre parent-child 
+  ilişkilerine göre DOM ağacına yerleştirilir
+
+
+1.3. Sayfaya js dosyası eklemek
+
+JavaScript nereye yazılır?
+
+- HTML dosyası içinde, <script></script> tagleri arasına,
+
+- js uzantılı bir dosyaya
+  * HTML dosyasına <script src="dosyaYolu/dosyaAdi.js"></script> tagıyla bağlanmalı
+
+Önemli Not:
+
+JS kodları body tagı kapanmadan hemen önce yazılmalı ya da bağlanmalı.
+
+
+1.4. Document Nedir?
+
+Document, DOM ağacının en üst seviyesindeki objedir ve tüm web sayfasını temsil eder.
+
+Document Objesi Özellikleri:
+
+- Tarayıcı bir HTML sayfasını yüklediğinde otomatik olarak bir document objesi oluşturur
+- Bu obje, sayfadaki tüm HTML elementlerine erişmemizi sağlar
+- JavaScript'te "document" anahtar kelimesiyle erişilebilir
+- DOM ağacının kök (root) elemanıdır
+
+Document Objesi ile Yapabileceklerimiz:
+
+- HTML elementlerini seçmek ve değiştirmek
+  * document.getElementById("id")
+  * document.querySelector(".class")
+  * document.getElementsByClassName("class")
+  
+- Yeni HTML elementleri oluşturmak
+  * document.createElement("div")
+  
+- Sayfa hakkında bilgi almak
+  * document.title (sayfa başlığı)
+  * document.URL (sayfa adresi)
+  * document.body (body elementi)
+  
+- Event'leri (olayları) dinlemek
+  * document.addEventListener("click", function)
+
+Örnek Kullanım:
+
+console.log(document.title);  // Sayfa başlığını yazdırır
+document.body.style.backgroundColor = "blue";  // Arka plan rengini değiştirir
+
+Document objesi, JavaScript ile HTML sayfası arasındaki köprüdür ve DOM manipülasyonunun temel taşıdır.
+
+document.getElementById("acKapa") // id'si acKapa olan elementi seçer
+
+<script>
+    document.querySelector("body").style.backgroundColor = "orange";
+</script>
+
+<script>
+    document.getElementById("acKapa").textContent = "Karanlık temayı aç";
+</script>
+
+<script>
+    // DOM Seçim Metodları ve Kullanımları
+
+    // getElementsByTagName
+    // tag adına göre seçmek için kullanılabilir
+    // örnek kullanım
+    // getElementsByTagName("body")
+
+    // getElementsByClassName
+    // class ismine göre seçmek için kullanılabilir.
+
+    // querySelector
+    // parantez içindeki selectörle eşleşen ilk elemanı seçer.
+
+    // querySelectorAll
+    // parantez içindeki selectörle eşleşen her elemanı seçer.
+
+    // body 'yi seçip fon rengi ve yazı rengini değiştirelirim.
+
+    // method                           örnek kullanım
+    // getElementsByTagName             getElementsByTagName("body")
+    // tag adına göre seçmek için kullanılabilir
+
+    // getElementsByClassName           getElementsByClassName("photos")
+    // class ismine göre seçmek için kullanılabilir.
+
+    // querySelector                    querySelector("body")
+    // parantez içindeki selectörle eşleşen ilk elemanı seçer.
+
+    // querySelectorAll                 querySelectorAll("photos img")
+    // parantez içindeki selectörle eşleşen her elemanı seçer.
+</script>
+
+<script>
+    // Birden Çok Eleman Seçmek
+
+    // querySelectorAll - Tüm eşleşen elemanları seçer
+    const tumResimler = document.querySelectorAll("img");
+    console.log(tumResimler); // NodeList döner
+
+    // getElementsByClassName - Class'a göre birden çok eleman seçer
+    const photoElements = document.getElementsByClassName("photos");
+    console.log(photoElements); // HTMLCollection döner
+
+    // getElementsByTagName - Tag'e göre birden çok eleman seçer
+    const tumDivler = document.getElementsByTagName("div");
+    console.log(tumDivler); // HTMLCollection döner
+
+    // Seçilen elemanlar üzerinde döngü ile işlem yapma
+    tumResimler.forEach(resim => {
+        resim.style.border = "2px solid red";
+    });
+
+    // HTMLCollection için Array.from() kullanarak döngü
+    Array.from(photoElements).forEach(element => {
+        element.style.padding = "10px";
+    });
+</script>
+<script>
+    // classList - Element'in class'larını yönetmek için kullanılır
+
+    // classList.add() - Yeni class ekler
+    const body = document.querySelector("body");
+    body.classList.add("dark-mode");
+
+    // classList.remove() - Class'ı kaldırır
+    body.classList.remove("dark-mode");
+
+    // classList.toggle() - Class varsa kaldırır, yoksa ekler
+    body.classList.toggle("active"); // active class'ını ekler
+    body.classList.toggle("active"); // active class'ını kaldırır
+
+    // classList.contains() - Class var mı kontrol eder (true/false döner)
+    if (body.classList.contains("active")) {
+        console.log("Body'de active class'ı var");
+    }
+
+    // classList.replace() - Bir class'ı başka bir class ile değiştirir
+    body.classList.add("old-class");
+    body.classList.replace("old-class", "new-class");
+
+    // Birden fazla class ekleme
+    body.classList.add("class1", "class2", "class3");
+
+    // Birden fazla class kaldırma
+    body.classList.remove("class1", "class2", "class3");
+
+    // Örnek: Butona tıklandığında tema değiştirme
+    const tumResimler = document.querySelectorAll("img");
+    tumResimler.forEach(resim => {
+        resim.classList.add("rounded");
+        resim.classList.toggle("shadow");
+    });
+</script>
+<script>
+    // Karanlık tema toggle fonksiyonu
+    function karanlikTemayiAcKapa() {
+        if (document.querySelector("body").classList.contains("dark")) {
+            document.querySelector("body").classList.remove("dark");
+            document.getElementById("acKapa").textContent = "Karanlık temayı aç";
+        } else {
+            document.querySelector("body").classList.add("dark");
+            document.getElementById("acKapa").textContent = "Karanlık temayı kapat";
+        }
+    }
+</script>
+
+-->
