@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Eventleri - Örnekler</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 20%, #a855f7 40%, #d946ef 60%, #ec4899 80%, #f43f5e 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        h2 {
+            color: #6366f1;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #6366f1, #8b5cf6, #d946ef) 1;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        
+        h3 {
+            color: #555;
+            margin: 20px 0 15px 0;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+        
+        p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        ul li {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border-radius: 10px;
+            border-left: 4px solid #8b5cf6;
+            transition: all 0.3s ease;
+        }
+        
+        ul li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+        }
+        
+        button {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 8px 5px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .box {
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            cursor: pointer;
+        }
+        
+        .box:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.6);
+        }
+        
+        input, select {
+            padding: 14px 18px;
+            margin: 12px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.3s ease;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        input:focus, select:focus {
+            border-color: #8b5cf6;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .result {
+            background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            border-left: 5px solid #d946ef;
+            box-shadow: 0 4px 15px rgba(217, 70, 239, 0.15);
+            animation: slideIn 0.4s ease;
+            color: #333;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .counter {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        pre {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            color: #c4b5fd;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        form input {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        #outerBox {
+            padding: 40px;
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px dashed #8b5cf6;
+        }
+        
+        #outerBox:hover {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+        }
+        
+        #innerBox {
+            padding: 30px;
+            background: linear-gradient(135deg, #e9d5ff 0%, #ddd6fe 100%);
+            margin: 20px 0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #a855f7;
+        }
+        
+        #innerBox:hover {
+            transform: scale(1.02);
+        }
+        
+        #itemList li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
+            border-radius: 12px;
+            border-left: 4px solid #d946ef;
+            transition: all 0.3s ease;
+        }
+        
+        #itemList li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(217, 70, 239, 0.3);
+            background: linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%);
+        }
+        
+        .deleteBtn {
+            background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        
+        .deleteBtn:hover {
+            background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+        }
+        
+        select {
+            cursor: pointer;
+        }
+        
+        strong {
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+        
+        /* Özel Buton Stilleri */
+        #clickBtn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        #counterBtn {
+            background: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+        
+        #changeColorBtn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+        }
+        
+        #toggleBtn {
+            background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
+        }
+        
+        #eventInfoBtn {
+            background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+        }
+        
+        #stopPropBtn {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        }
+        
+        #addListenerBtn {
+            background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%);
+            color: white;
+        }
+        
+        #removeListenerBtn {
+            background: linear-gradient(135deg, #f9a8d4 0%, #f472b6 100%);
+            color: white;
+        }
+        
+        #addItemBtn {
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        /* Özel Kutu Renkleri */
+        #colorBox {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        #hoverBox {
+            background: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+        }
+        
+        #pressBox {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+        }
+        
+        #toggleBox {
+            background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);
+        }
+        
+        #mousePosBox {
+            background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+        }
+        
+        /* Scroll Animasyonları */
+        @media (prefers-reduced-motion: no-preference) {
+            .container {
+                animation: fadeInUp 0.6s ease backwards;
+            }
+            
+            .container:nth-child(1) { animation-delay: 0.1s; }
+            .container:nth-child(2) { animation-delay: 0.2s; }
+            .container:nth-child(3) { animation-delay: 0.3s; }
+            .container:nth-child(4) { animation-delay: 0.4s; }
+            .container:nth-child(5) { animation-delay: 0.5s; }
+            .container:nth-child(6) { animation-delay: 0.6s; }
+            .container:nth-child(7) { animation-delay: 0.7s; }
+            .container:nth-child(8) { animation-delay: 0.8s; }
+            .container:nth-child(9) { animation-delay: 0.9s; }
+            .container:nth-child(10) { animation-delay: 1s; }
+        }
+        
+        /* Responsive Tasarım */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .box {
+                width: 100%;
+                max-width: 220px;
+            }
+            
+            input, select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM Eventleri - Kapsamlı Örnekler</h1>
+
+    <!-- 2.1. DOM Eventleri Nedir? -->
+    <div class="container">
+        <h2>2.1. DOM Eventleri Nedir?</h2>
+        <p>
+            <strong>DOM Eventleri (Olaylar)</strong>, kullanıcının web sayfası ile etkileşim kurduğunda 
+            (tıklama, klavye tuşlarına basma, fare hareketi vb.) tarayıcının oluşturduğu 
+            sinyallerdir. JavaScript ile bu olayları dinleyip, kullanıcı etkileşimlerine 
+            anında yanıt verebiliriz.
+        </p>
+        
+        <h3>Event'lerin Önemi</h3>
+        <p>
+            Modern web uygulamaları, kullanıcı etkileşimlerine anında yanıt vermelidir. 
+            Event'ler sayesinde:
+        </p>
+        <ul>
+            <li>Kullanıcı tıklamalarını yakalayabiliriz</li>
+            <li>Form gönderimlerini kontrol edebiliriz</li>
+            <li>Klavye girdilerini işleyebiliriz</li>
+            <li>Fare hareketlerini takip edebiliriz</li>
+            <li>Sayfa yükleme durumlarını yönetebiliriz</li>
+            <li>Dinamik içerik oluşturabiliriz</li>
+        </ul>
+
+        <h3>Event Türleri Kategorileri</h3>
+        <p><strong>1. Mouse Event'leri (Fare Olayları):</strong></p>
+        <ul>
+            <li><strong>click</strong> - Elemente tıklama (en yaygın kullanılan)</li>
+            <li><strong>dblclick</strong> - Çift tıklama</li>
+            <li><strong>mousedown</strong> - Fare tuşuna basma</li>
+            <li><strong>mouseup</strong> - Fare tuşunu bırakma</li>
+            <li><strong>mouseenter</strong> - Fare elementin üzerine gelme</li>
+            <li><strong>mouseleave</strong> - Fare elementten ayrılma</li>
+            <li><strong>mouseover</strong> - Fare elementin üzerinde (bubbling yapar)</li>
+            <li><strong>mouseout</strong> - Fare elementten çıkma (bubbling yapar)</li>
+            <li><strong>mousemove</strong> - Fare hareket ettirme</li>
+        </ul>
+
+        <p><strong>2. Keyboard Event'leri (Klavye Olayları):</strong></p>
+        <ul>
+            <li><strong>keydown</strong> - Tuşa basma (en yaygın)</li>
+            <li><strong>keyup</strong> - Tuşu bırakma</li>
+            <li><strong>keypress</strong> - Tuşa basma (deprecated, keydown kullanın)</li>
+        </ul>
+
+        <p><strong>3. Form Event'leri:</strong></p>
+        <ul>
+            <li><strong>input</strong> - Input değeri değiştiğinde (anlık)</li>
+            <li><strong>change</strong> - Değer değişip focus kaybedildiğinde</li>
+            <li><strong>submit</strong> - Form gönderildiğinde</li>
+            <li><strong>focus</strong> - Elemente odaklanıldığında</li>
+            <li><strong>blur</strong> - Elementten odak ayrıldığında</li>
+            <li><strong>select</strong> - Input içeriği seçildiğinde</li>
+        </ul>
+
+        <p><strong>4. Window/Document Event'leri:</strong></p>
+        <ul>
+            <li><strong>load</strong> - Sayfa/element yüklendiğinde</li>
+            <li><strong>DOMContentLoaded</strong> - DOM yüklendiğinde (daha hızlı)</li>
+            <li><strong>resize</strong> - Pencere boyutu değiştiğinde</li>
+            <li><strong>scroll</strong> - Sayfa kaydırıldığında</li>
+            <li><strong>beforeunload</strong> - Sayfa kapatılmadan önce</li>
+        </ul>
+
+        <p><strong>5. Touch Event'leri (Mobil):</strong></p>
+        <ul>
+            <li><strong>touchstart</strong> - Dokunma başladığında</li>
+            <li><strong>touchend</strong> - Dokunma bittiğinde</li>
+            <li><strong>touchmove</strong> - Dokunma hareket ettiğinde</li>
+        </ul>
+    </div>
+
+    <!-- 2.2. addEventListener Kullanımı -->
+    <div class="container">
+        <h2>2.2. addEventListener - Event Dinleme</h2>
+        <p>
+            <strong>addEventListener()</strong> metodu, bir elemente event dinleyici eklemek için kullanılır.
+            Bu metod, modern JavaScript'te event eklemenin önerilen yöntemidir.
+        </p>
+
+        <h3>Syntax (Sözdizimi):</h3>
+        <pre>element.addEventListener("event", function, useCapture);</pre>
+        
+        <h3>Parametreler:</h3>
+        <ul>
+            <li><strong>event</strong> (string): Dinlenecek event adı (örn: "click", "mouseenter")</li>
+            <li><strong>function</strong> (function): Event gerçekleştiğinde çalışacak fonksiyon</li>
+            <li><strong>useCapture</strong> (boolean, opsiyonel): Event capturing kullanılsın mı? (varsayılan: false)</li>
+        </ul>
+
+        <h3>addEventListener'ın Avantajları:</h3>
+        <ul>
+            <li>✅ Aynı event'e birden fazla listener eklenebilir</li>
+            <li>✅ removeEventListener ile kolayca kaldırılabilir</li>
+            <li>✅ useCapture parametresi ile event propagation kontrolü</li>
+            <li>✅ HTML'den ayrı tutulur (separation of concerns)</li>
+            <li>✅ Daha okunabilir ve bakımı kolay kod</li>
+        </ul>
+
+        <h3>Eski Yöntem vs Yeni Yöntem:</h3>
+        <p><strong>❌ Eski Yöntem (Önerilmez):</strong></p>
+        <pre>&lt;button onclick="myFunction()"&gt;Tıkla&lt;/button&gt;
+// veya
+button.onclick = function() { ... };</pre>
+        
+        <p><strong>✅ Yeni Yöntem (Önerilen):</strong></p>
+        <pre>button.addEventListener("click", function() { ... });</pre>
+
+        <h3>Pratik Örnek:</h3>
+        <button id="clickBtn">Bana Tıkla!</button>
+        <div id="clickResult" class="result" style="display: none;">
+            Butona tıklandı! ✅ Event listener başarıyla çalıştı.
+        </div>
+
+        <h3>Kod Örneği:</h3>
+        <pre>const button = document.getElementById("clickBtn");
+button.addEventListener("click", function() {
+    console.log("Butona tıklandı!");
+    // İşlemler burada yapılır
+});</pre>
+    </div>
+
+    <!-- 2.3. Click Event Örnekleri -->
+    <div class="container">
+        <h2>2.3. Click Event Örnekleri</h2>
+        <p>
+            <strong>click</strong> event'i, web geliştirmede en sık kullanılan event türüdür. 
+            Kullanıcı bir elemente tıkladığında tetiklenir.
+        </p>
+
+        <h3>Kullanım Senaryoları:</h3>
+        <ul>
+            <li>Buton tıklamaları</li>
+            <li>Menü açma/kapama</li>
+            <li>Modal pencereler</li>
+            <li>Form gönderimi</li>
+            <li>Toggle işlemleri (aç/kapa)</li>
+            <li>Sayfa navigasyonu</li>
+        </ul>
+        
+        <h3>Örnek 1: Sayaç (Counter)</h3>
+        <p>
+            Her tıklamada sayacı artıran basit bir örnek. Bu pattern, 
+            oyun skorları, beğeni sayıları gibi durumlarda kullanılır.
+        </p>
+        <button id="counterBtn">Tıklama Sayısı: <span class="counter" id="counter">0</span></button>
+        <pre>let count = 0;
+button.addEventListener("click", function() {
+    count++;
+    counter.textContent = count;
+});</pre>
+        
+        <h3>Örnek 2: Renk Değiştirme</h3>
+        <p>
+            Her tıklamada farklı bir renge geçiş yapan dinamik örnek. 
+            Tema değiştirme, renk seçici gibi uygulamalarda kullanılır.
+        </p>
+        <div id="colorBox" class="box">Renkli Kutu</div>
+        <button id="changeColorBtn">Rengi Değiştir</button>
+        <pre>const colors = ["#6366f1", "#8b5cf6", "#a855f7", ...];
+let index = 0;
+button.addEventListener("click", function() {
+    index = (index + 1) % colors.length;
+    box.style.background = colors[index];
+});</pre>
+        
+        <h3>Örnek 3: Gizle/Göster (Toggle)</h3>
+        <p>
+            Bir elementi görünür/görünmez yapma işlemi. Dropdown menüler, 
+            açıklama panelleri gibi durumlarda yaygın kullanılır.
+        </p>
+        <button id="toggleBtn">Gizle/Göster</button>
+        <div id="toggleBox" class="box" style="background: linear-gradient(135deg, #a855f7 0%, #d946ef 100%);">
+            Bu kutu gizlenebilir
+        </div>
+        <pre>button.addEventListener("click", function() {
+    if (box.style.display === "none") {
+        box.style.display = "flex";
+    } else {
+        box.style.display = "none";
+    }
+});</pre>
+
+        <h3>Best Practices (En İyi Uygulamalar):</h3>
+        <ul>
+            <li>✅ Event listener'ları sayfa yüklendikten sonra ekleyin</li>
+            <li>✅ Gereksiz event listener'ları kaldırın (memory leak önleme)</li>
+            <li>✅ Event delegation kullanarak performansı artırın</li>
+            <li>✅ preventDefault() ile varsayılan davranışları kontrol edin</li>
+        </ul>
+    </div>
+
+    <!-- 2.4. Mouse Event Örnekleri -->
+    <div class="container">
+        <h2>2.4. Mouse Event Örnekleri</h2>
+        <p>
+            Mouse event'leri, kullanıcının fare ile yaptığı tüm etkileşimleri yakalar. 
+            Modern web uygulamalarında hover efektleri, drag & drop, context menu gibi 
+            özellikler için kritik öneme sahiptir.
+        </p>
+
+        <h3>Mouse Event Türleri:</h3>
+        <ul>
+            <li><strong>click</strong> - Tıklama (mousedown + mouseup kombinasyonu)</li>
+            <li><strong>mousedown</strong> - Fare tuşuna basma</li>
+            <li><strong>mouseup</strong> - Fare tuşunu bırakma</li>
+            <li><strong>mouseenter</strong> - Fare elementin içine girer (bubbling yapmaz)</li>
+            <li><strong>mouseleave</strong> - Fare elementten çıkar (bubbling yapmaz)</li>
+            <li><strong>mouseover</strong> - Fare elementin üzerinde (bubbling yapar)</li>
+            <li><strong>mouseout</strong> - Fare elementten çıkar (bubbling yapar)</li>
+            <li><strong>mousemove</strong> - Fare hareket eder</li>
+            <li><strong>contextmenu</strong> - Sağ tıklama menüsü</li>
+        </ul>
+
+        <h3>mouseenter vs mouseover Farkı:</h3>
+        <p>
+            <strong>mouseenter</strong> sadece hedef elementte tetiklenir (bubbling yok), 
+            <strong>mouseover</strong> ise child elementlerde de tetiklenir (bubbling var).
+            Genellikle mouseenter/mouseleave tercih edilir.
+        </p>
+        
+        <h3>Örnek 1: mouseenter ve mouseleave</h3>
+        <p>
+            Hover efektleri, tooltip gösterme, görsel büyütme gibi işlemlerde kullanılır.
+        </p>
+        <div id="hoverBox" class="box" style="background-color: #9C27B0;">
+            Fareyi üzerime getir
+        </div>
+        <div id="hoverResult" class="result" style="display: none;"></div>
+        <pre>box.addEventListener("mouseenter", function() {
+    // Fare kutu üzerine geldiğinde
+    box.style.transform = "scale(1.15)";
+});
+
+box.addEventListener("mouseleave", function() {
+    // Fare kutudan ayrıldığında
+    box.style.transform = "scale(1)";
+});</pre>
+        
+        <h3>Örnek 2: mousedown ve mouseup</h3>
+        <p>
+            Drag & drop, resizing, drawing gibi işlemlerde kullanılır. 
+            Kullanıcı fare tuşunu basılı tuttuğu süre boyunca işlem yapılabilir.
+        </p>
+        <div id="pressBox" class="box" style="background-color: #F44336;">
+            Basılı tut
+        </div>
+        <div id="pressResult" class="result" style="display: none;"></div>
+        <pre>box.addEventListener("mousedown", function() {
+    // Tuşa basıldığında
+    box.style.transform = "scale(0.9)";
+});
+
+box.addEventListener("mouseup", function() {
+    // Tuş bırakıldığında
+    box.style.transform = "scale(1)";
+});</pre>
+
+        <h3>Örnek 3: mousemove ile Pozisyon Takibi</h3>
+        <p>
+            Fare pozisyonunu takip ederek interaktif özellikler oluşturulabilir.
+        </p>
+        <div id="mousePosBox" class="box" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);">
+            Fareyi hareket ettir
+        </div>
+        <div id="mousePosResult" class="result" style="display: none;"></div>
+
+        <h3>Kullanım Senaryoları:</h3>
+        <ul>
+            <li>Hover efektleri ve animasyonlar</li>
+            <li>Tooltip ve popover gösterme</li>
+            <li>Drag & drop işlemleri</li>
+            <li>Resim galerilerinde zoom</li>
+            <li>Oyun kontrolleri</li>
+            <li>Çizim uygulamaları</li>
+        </ul>
+    </div>
+
+    <!-- 2.5. Keyboard Event Örnekleri -->
+    <div class="container">
+        <h2>2.5. Keyboard Event Örnekleri</h2>
+        <p>
+            Klavye event'leri, kullanıcının klavye ile yaptığı girdileri yakalar. 
+            Form validasyonu, kısayol tuşları, arama özellikleri gibi durumlarda kritik öneme sahiptir.
+        </p>
+
+        <h3>Keyboard Event Türleri:</h3>
+        <ul>
+            <li><strong>keydown</strong> - Tuşa basıldığında (en yaygın, önerilen)</li>
+            <li><strong>keyup</strong> - Tuş bırakıldığında</li>
+            <li><strong>keypress</strong> - Tuşa basıldığında (deprecated, kullanmayın)</li>
+        </ul>
+
+        <h3>Event Object Özellikleri:</h3>
+        <ul>
+            <li><strong>e.key</strong> - Basılan tuşun değeri (örn: "a", "Enter", "ArrowUp")</li>
+            <li><strong>e.keyCode</strong> - Tuşun kod numarası (deprecated, key kullanın)</li>
+            <li><strong>e.code</strong> - Fiziksel tuş kodu (örn: "KeyA", "Enter")</li>
+            <li><strong>e.ctrlKey</strong> - Ctrl tuşu basılı mı? (boolean)</li>
+            <li><strong>e.shiftKey</strong> - Shift tuşu basılı mı? (boolean)</li>
+            <li><strong>e.altKey</strong> - Alt tuşu basılı mı? (boolean)</li>
+            <li><strong>e.metaKey</strong> - Meta tuşu basılı mı? (Mac'te Cmd) (boolean)</li>
+        </ul>
+        
+        <h3>Örnek 1: keydown ile Tuş Bilgileri</h3>
+        <p>
+            Her tuş basımında tuş bilgilerini gösterir. Kısayol tuşları, 
+            oyun kontrolleri gibi durumlarda kullanılır.
+        </p>
+        <input type="text" id="keyboardInput" placeholder="Buraya yazın...">
+        <div id="keyboardResult" class="result" style="display: none;"></div>
+        <pre>input.addEventListener("keydown", function(e) {
+    console.log("Tuş:", e.key);
+    console.log("Kod:", e.code);
+    console.log("Ctrl:", e.ctrlKey);
+    console.log("Shift:", e.shiftKey);
+});</pre>
+        
+        <h3>Örnek 2: Enter Tuşu ile Gönder</h3>
+        <p>
+            Form gönderimi, arama, mesaj gönderme gibi işlemlerde Enter tuşu 
+            ile hızlı işlem yapılabilir.
+        </p>
+        <input type="text" id="enterInput" placeholder="Yazıp Enter'a basın...">
+        <div id="enterResult" class="result" style="display: none;"></div>
+        <pre>input.addEventListener("keyup", function(e) {
+    if (e.key === "Enter") {
+        // Enter tuşuna basıldı
+        console.log("Gönder:", e.target.value);
+    }
+});</pre>
+
+        <h3>Örnek 3: Kısayol Tuşları (Keyboard Shortcuts)</h3>
+        <p>
+            Ctrl+S (kaydet), Ctrl+C (kopyala) gibi kısayol tuşları oluşturulabilir.
+        </p>
+        <pre>document.addEventListener("keydown", function(e) {
+    // Ctrl + S (Kaydet)
+    if (e.ctrlKey && e.key === "s") {
+        e.preventDefault(); // Tarayıcının kaydetme menüsünü engelle
+        saveFunction();
+    }
+    
+    // Escape tuşu
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});</pre>
+
+        <h3>Özel Tuşlar:</h3>
+        <ul>
+            <li><strong>Enter</strong> - Form gönderimi</li>
+            <li><strong>Escape</strong> - Modal kapatma, iptal</li>
+            <li><strong>ArrowUp/Down/Left/Right</strong> - Navigasyon</li>
+            <li><strong>Tab</strong> - Form alanları arası geçiş</li>
+            <li><strong>Backspace/Delete</strong> - Silme işlemleri</li>
+        </ul>
+
+        <h3>Best Practices:</h3>
+        <ul>
+            <li>✅ keydown kullanın, keypress kullanmayın (deprecated)</li>
+            <li>✅ e.key kullanın, e.keyCode kullanmayın (deprecated)</li>
+            <li>✅ preventDefault() ile varsayılan davranışları kontrol edin</li>
+            <li>✅ Kısayol tuşlarını dokümente edin</li>
+        </ul>
+    </div>
+
+    <!-- 2.6. Form Event Örnekleri -->
+    <div class="container">
+        <h2>2.6. Form Event Örnekleri</h2>
+        <p>
+            Form event'leri, kullanıcı form alanları ile etkileşim kurduğunda tetiklenir. 
+            Form validasyonu, anlık geri bildirim, otomatik kaydetme gibi özellikler için kritiktir.
+        </p>
+
+        <h3>Form Event Türleri:</h3>
+        <ul>
+            <li><strong>input</strong> - Input değeri her değiştiğinde (anlık, her karakterde)</li>
+            <li><strong>change</strong> - Değer değişip focus kaybedildiğinde</li>
+            <li><strong>submit</strong> - Form gönderildiğinde</li>
+            <li><strong>focus</strong> - Elemente odaklanıldığında</li>
+            <li><strong>blur</strong> - Elementten odak ayrıldığında</li>
+            <li><strong>select</strong> - Input içeriği seçildiğinde</li>
+            <li><strong>reset</strong> - Form sıfırlandığında</li>
+        </ul>
+
+        <h3>input vs change Farkı:</h3>
+        <p>
+            <strong>input</strong> event'i her karakter değişikliğinde tetiklenir (anlık). 
+            <strong>change</strong> event'i ise değer değişip focus kaybedildiğinde tetiklenir.
+        </p>
+        
+        <h3>Örnek 1: input Event - Anlık Değişiklik Takibi</h3>
+        <p>
+            Karakter sayısı, şifre gücü, arama önerileri gibi anlık geri bildirim 
+            gereken durumlarda kullanılır.
+        </p>
+        <input type="text" id="inputField" placeholder="Yazdıkça karakter sayısı gösterilir...">
+        <div id="inputResult" class="result">Karakter sayısı: 0</div>
+        <pre>input.addEventListener("input", function(e) {
+    const length = e.target.value.length;
+    result.textContent = `Karakter sayısı: ${length}`;
+    // Her karakter değişikliğinde çalışır
+});</pre>
+        
+        <h3>Örnek 2: change Event - Değer Değiştiğinde</h3>
+        <p>
+            Select, checkbox, radio button gibi elementlerde değer değişikliğini 
+            yakalamak için kullanılır.
+        </p>
+        <select id="selectField">
+            <option value="">Bir seçenek seçin</option>
+            <option value="istanbul">İstanbul</option>
+            <option value="ankara">Ankara</option>
+            <option value="izmir">İzmir</option>
+        </select>
+        <div id="selectResult" class="result" style="display: none;"></div>
+        <pre>select.addEventListener("change", function(e) {
+    console.log("Seçilen değer:", e.target.value);
+    // Focus kaybedildiğinde çalışır
+});</pre>
+        
+        <h3>Örnek 3: submit Event - Form Gönderimi</h3>
+        <p>
+            Form gönderilmeden önce validasyon yapma, veri işleme, 
+            AJAX ile gönderme gibi işlemler için kullanılır.
+        </p>
+        <form id="myForm">
+            <input type="text" id="formName" placeholder="Adınız" required>
+            <input type="email" id="formEmail" placeholder="E-posta" required>
+            <button type="submit">Gönder</button>
+        </form>
+        <div id="formResult" class="result" style="display: none;"></div>
+        <pre>form.addEventListener("submit", function(e) {
+    e.preventDefault(); // Sayfa yenilenmesini engelle
+    
+    // Validasyon
+    const name = formName.value;
+    const email = formEmail.value;
+    
+    if (name && email) {
+        // Form gönder
+        console.log("Gönderiliyor:", { name, email });
+    }
+});</pre>
+
+        <h3>Örnek 4: focus ve blur Event'leri</h3>
+        <p>
+            Input alanına odaklanıldığında veya odaktan çıkıldığında işlem yapılabilir.
+        </p>
+        <pre>input.addEventListener("focus", function() {
+    // Odaklandığında
+    this.style.borderColor = "#8b5cf6";
+    this.style.boxShadow = "0 0 0 4px rgba(139, 92, 246, 0.1)";
+});
+
+input.addEventListener("blur", function() {
+    // Odaktan çıkıldığında
+    this.style.borderColor = "#e0e0e0";
+    // Validasyon yapılabilir
+    validateInput(this);
+});</pre>
+
+        <h3>Form Validasyon Örneği:</h3>
+        <pre>function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+emailInput.addEventListener("blur", function() {
+    if (!validateEmail(this.value)) {
+        this.style.borderColor = "#f43f5e";
+        showError("Geçerli bir e-posta adresi girin");
+    } else {
+        this.style.borderColor = "#8b5cf6";
+    }
+});</pre>
+
+        <h3>Best Practices:</h3>
+        <ul>
+            <li>✅ submit event'inde preventDefault() kullanın (AJAX için)</li>
+            <li>✅ input event'i için debounce kullanın (performans)</li>
+            <li>✅ blur event'inde validasyon yapın</li>
+            <li>✅ Kullanıcıya anlık geri bildirim verin</li>
+            <li>✅ Form verilerini güvenli şekilde işleyin</li>
+        </ul>
+    </div>
+
+    <!-- 2.7. Event Object ve Event Properties -->
+    <div class="container">
+        <h2>2.7. Event Object ve Özellikleri</h2>
+        <p>
+            Event listener fonksiyonlarına otomatik olarak bir <strong>Event Object</strong> parametresi geçirilir.
+            Bu obje, event hakkında tüm önemli bilgileri içerir ve event'i kontrol etmemize olanak sağlar.
+        </p>
+
+        <h3>Event Object Nedir?</h3>
+        <p>
+            Her event listener fonksiyonu, ilk parametre olarak bir Event objesi alır. 
+            Bu obje, event hakkında detaylı bilgiler içerir ve event'in davranışını kontrol etmemize izin verir.
+        </p>
+
+        <h3>Temel Event Object Özellikleri:</h3>
+        <ul>
+            <li><strong>e.type</strong> - Event türü (örn: "click", "keydown")</li>
+            <li><strong>e.target</strong> - Event'in tetiklendiği element</li>
+            <li><strong>e.currentTarget</strong> - Event listener'ın eklendiği element</li>
+            <li><strong>e.timeStamp</strong> - Event'in oluştuğu zaman (milisaniye)</li>
+            <li><strong>e.bubbles</strong> - Event bubbling yapıyor mu? (boolean)</li>
+            <li><strong>e.cancelable</strong> - Event iptal edilebilir mi? (boolean)</li>
+            <li><strong>e.defaultPrevented</strong> - preventDefault() çağrıldı mı? (boolean)</li>
+        </ul>
+
+        <h3>target vs currentTarget Farkı:</h3>
+        <p>
+            <strong>target</strong>: Event'in gerçekten tetiklendiği element (child element olabilir)<br>
+            <strong>currentTarget</strong>: Event listener'ın eklendiği element (her zaman aynı)
+        </p>
+        <pre>div.addEventListener("click", function(e) {
+    console.log(e.target);        // Tıklanan element (button olabilir)
+    console.log(e.currentTarget); // Her zaman div
+});</pre>
+        
+        <button id="eventInfoBtn">Event Bilgilerini Göster</button>
+        <div id="eventInfoResult" class="result" style="display: none;"></div>
+
+        <h3>Mouse Event Object Özellikleri:</h3>
+        <ul>
+            <li><strong>e.clientX / e.clientY</strong> - Mouse pozisyonu (viewport'a göre)</li>
+            <li><strong>e.pageX / e.pageY</strong> - Mouse pozisyonu (sayfaya göre)</li>
+            <li><strong>e.screenX / e.screenY</strong> - Mouse pozisyonu (ekrana göre)</li>
+            <li><strong>e.button</strong> - Hangi fare tuşu basıldı? (0: sol, 1: orta, 2: sağ)</li>
+            <li><strong>e.buttons</strong> - Basılı tuşların kombinasyonu</li>
+        </ul>
+        
+        <h3>Mouse Pozisyonu Örneği:</h3>
+        <div id="mousePosBox" class="box" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);">
+            Fareyi hareket ettir
+        </div>
+        <div id="mousePosResult" class="result" style="display: none;"></div>
+        <pre>box.addEventListener("mousemove", function(e) {
+    const rect = box.getBoundingClientRect();
+    const x = e.clientX - rect.left;  // Kutu içindeki X pozisyonu
+    const y = e.clientY - rect.top;   // Kutu içindeki Y pozisyonu
+    console.log(`X: ${x}, Y: ${y}`);
+});</pre>
+
+        <h3>Keyboard Event Object Özellikleri:</h3>
+        <ul>
+            <li><strong>e.key</strong> - Basılan tuşun değeri ("a", "Enter", "ArrowUp")</li>
+            <li><strong>e.code</strong> - Fiziksel tuş kodu ("KeyA", "Enter")</li>
+            <li><strong>e.keyCode</strong> - Tuş kodu (deprecated)</li>
+            <li><strong>e.ctrlKey</strong> - Ctrl tuşu basılı mı?</li>
+            <li><strong>e.shiftKey</strong> - Shift tuşu basılı mı?</li>
+            <li><strong>e.altKey</strong> - Alt tuşu basılı mı?</li>
+            <li><strong>e.metaKey</strong> - Meta tuşu basılı mı? (Mac: Cmd)</li>
+            <li><strong>e.repeat</strong> - Tuş basılı tutuldu mu? (boolean)</li>
+        </ul>
+
+        <h3>Event Object Metodları:</h3>
+        <ul>
+            <li><strong>e.preventDefault()</strong> - Varsayılan davranışı engelle</li>
+            <li><strong>e.stopPropagation()</strong> - Event'in yayılmasını durdur</li>
+            <li><strong>e.stopImmediatePropagation()</strong> - Aynı elementteki diğer listener'ları da durdur</li>
+        </ul>
+
+        <h3>Kullanım Senaryoları:</h3>
+        <ul>
+            <li>Mouse pozisyonunu takip etme (drag & drop, drawing)</li>
+            <li>Hangi tuşa basıldığını öğrenme (kısayol tuşları)</li>
+            <li>Event'in nereden geldiğini bulma (event delegation)</li>
+            <li>Varsayılan davranışları kontrol etme (form gönderimi)</li>
+        </ul>
+    </div>
+
+    <!-- 2.8. Event Propagation (Bubbling ve Capturing) -->
+    <div class="container">
+        <h2>2.8. Event Propagation (Bubbling ve Capturing)</h2>
+        <p>
+            Event Propagation, bir event'in DOM ağacında nasıl yayıldığını açıklar. 
+            Bu kavramı anlamak, karmaşık event yönetimi için kritik öneme sahiptir.
+        </p>
+
+        <h3>Event Propagation Fazları:</h3>
+        <p>Bir event, DOM ağacında 3 fazda işlenir:</p>
+        <ol>
+            <li><strong>Capturing Phase (Yakalama Fazı)</strong> - Event, root'tan hedefe doğru iner</li>
+            <li><strong>Target Phase (Hedef Fazı)</strong> - Event, hedef elementte işlenir</li>
+            <li><strong>Bubbling Phase (Kabarcık Fazı)</strong> - Event, hedeften root'a doğru çıkar</li>
+        </ol>
+
+        <h3>Bubbling (Kabarcık) Nedir?</h3>
+        <p>
+            Bubbling, event'in hedef elementten başlayarak parent elementlere doğru yayılmasıdır. 
+            Varsayılan olarak çoğu event bubbling yapar.
+        </p>
+        <pre>&lt;div id="outer"&gt;
+    &lt;div id="inner"&gt;
+        &lt;button&gt;Tıkla&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+// Button'a tıklandığında:
+// 1. button (target)
+// 2. inner (bubbling)
+// 3. outer (bubbling)
+// 4. body (bubbling)
+// 5. html (bubbling)
+// 6. document (bubbling)</pre>
+
+        <h3>Capturing (Yakalama) Nedir?</h3>
+        <p>
+            Capturing, event'in root'tan başlayarak hedefe doğru inmesidir. 
+            useCapture parametresini true yaparak capturing kullanılabilir.
+        </p>
+        <pre>element.addEventListener("click", function() {
+    // Bubbling fazında çalışır (varsayılan)
+}, false);
+
+element.addEventListener("click", function() {
+    // Capturing fazında çalışır
+}, true);</pre>
+
+        <h3>Pratik Örnek:</h3>
+        <div id="outerBox" style="padding: 30px; background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); border-radius: 8px; border: 2px dashed #8b5cf6; cursor: pointer;">
+            <strong>Dış Kutu (Tıklayın)</strong>
+            <div id="innerBox" style="padding: 20px; background: linear-gradient(135deg, #e9d5ff 0%, #ddd6fe 100%); margin: 20px; border-radius: 15px; border: 2px solid #a855f7; cursor: pointer;">
+                <strong>İç Kutu (Tıklayın)</strong>
+                <button id="stopPropBtn">Propagation'ı Durdur</button>
+            </div>
+        </div>
+        <div id="propagationResult" class="result" style="display: none;"></div>
+
+        <h3>stopPropagation() Kullanımı:</h3>
+        <p>
+            <strong>e.stopPropagation()</strong> ile event'in yayılmasını durdurabiliriz. 
+            Bu, sadece mevcut fazdaki yayılmayı durdurur.
+        </p>
+        <pre>button.addEventListener("click", function(e) {
+    e.stopPropagation(); // Event'in yukarı yayılmasını durdur
+    console.log("Sadece bu çalışır");
+});</pre>
+
+        <h3>stopImmediatePropagation() Kullanımı:</h3>
+        <p>
+            <strong>e.stopImmediatePropagation()</strong> ile aynı elementteki diğer 
+            listener'ların da çalışmasını engelleyebiliriz.
+        </p>
+        <pre>button.addEventListener("click", function(e) {
+    e.stopImmediatePropagation(); // Diğer listener'ları da durdur
+});</pre>
+
+        <h3>Kullanım Senaryoları:</h3>
+        <ul>
+            <li>Modal pencereler (dışarı tıklamada kapatma)</li>
+            <li>Dropdown menüler (dışarı tıklamada kapatma)</li>
+            <li>Event delegation (parent'ta dinleme)</li>
+            <li>Özel kontroller (bazı event'leri durdurma)</li>
+        </ul>
+
+        <h3>Best Practices:</h3>
+        <ul>
+            <li>✅ Çoğu durumda bubbling yeterlidir</li>
+            <li>✅ stopPropagation()'ı dikkatli kullanın (diğer listener'ları etkileyebilir)</li>
+            <li>✅ Event delegation için bubbling'i kullanın</li>
+            <li>✅ Modal/dropdown için dışarı tıklama kontrolü yapın</li>
+        </ul>
+    </div>
+
+    <!-- 2.9. removeEventListener -->
+    <div class="container">
+        <h2>2.9. removeEventListener - Event Dinleyiciyi Kaldırma</h2>
+        <p>
+            Bir event listener'ı kaldırmak için <strong>removeEventListener()</strong> kullanılır.
+            Bu, memory leak'leri önlemek ve gereksiz event listener'ları temizlemek için önemlidir.
+        </p>
+
+        <h3>Syntax:</h3>
+        <pre>element.removeEventListener("event", function, useCapture);</pre>
+
+        <h3>Önemli Kural:</h3>
+        <p>
+            <strong>Kaldırılacak fonksiyon, eklenen fonksiyonla aynı referansa sahip olmalıdır.</strong>
+            Bu yüzden fonksiyonu bir değişkende saklamak gerekir.
+        </p>
+
+        <h3>❌ Yanlış Kullanım:</h3>
+        <pre>button.addEventListener("click", function() {
+    console.log("Tıklandı");
+});
+
+// Bu çalışmaz! Fonksiyon referansı farklı
+button.removeEventListener("click", function() {
+    console.log("Tıklandı");
+});</pre>
+
+        <h3>✅ Doğru Kullanım:</h3>
+        <pre>// Fonksiyonu değişkende sakla
+function handleClick() {
+    console.log("Tıklandı");
+}
+
+button.addEventListener("click", handleClick);
+button.removeEventListener("click", handleClick); // ✅ Çalışır</pre>
+
+        <h3>Pratik Örnek:</h3>
+        <button id="addListenerBtn">Event Listener Ekle</button>
+        <button id="removeListenerBtn">Event Listener Kaldır</button>
+        <button id="testBtn">Test Butonu</button>
+        <div id="listenerResult" class="result" style="display: none;"></div>
+
+        <h3>Kod Örneği:</h3>
+        <pre>// Fonksiyonu dışarıda tanımla
+function testButtonHandler() {
+    console.log("Test butonu tıklandı!");
+}
+
+// Ekle
+addListenerBtn.addEventListener("click", function() {
+    testBtn.addEventListener("click", testButtonHandler);
+});
+
+// Kaldır
+removeListenerBtn.addEventListener("click", function() {
+    testBtn.removeEventListener("click", testButtonHandler);
+});</pre>
+
+        <h3>Ne Zaman Kaldırılmalı?</h3>
+        <ul>
+            <li>✅ Element DOM'dan kaldırıldığında</li>
+            <li>✅ Component unmount olduğunda (React, Vue vb.)</li>
+            <li>✅ Geçici event listener'lar kullanıldığında</li>
+            <li>✅ Memory leak önlemek için</li>
+            <li>✅ Event listener'ı tekrar eklemek istediğinizde</li>
+        </ul>
+
+        <h3>Arrow Function ile Dikkat:</h3>
+        <pre>// Arrow function kullanırken de referansı saklamalısınız
+const handleClick = () => {
+    console.log("Tıklandı");
+};
+
+button.addEventListener("click", handleClick);
+button.removeEventListener("click", handleClick); // ✅ Çalışır</pre>
+
+        <h3>Best Practices:</h3>
+        <ul>
+            <li>✅ Event listener'ları eklerken referansı saklayın</li>
+            <li>✅ Component cleanup'ında listener'ları kaldırın</li>
+            <li>✅ Gereksiz listener'ları temizleyin (performans)</li>
+            <li>✅ addEventListener ile eklenen listener'ları removeEventListener ile kaldırın</li>
+        </ul>
+    </div>
+
+    <!-- 2.10. Event Delegation -->
+    <div class="container">
+        <h2>2.10. Event Delegation (Event Temsilciliği)</h2>
+        <p>
+            <strong>Event Delegation</strong>, event listener'ları child elementler yerine 
+            parent element'e ekleme tekniğidir. Bu, özellikle dinamik olarak eklenen 
+            elementler için performans ve kod organizasyonu açısından çok faydalıdır.
+        </p>
+
+        <h3>Event Delegation Nedir?</h3>
+        <p>
+            Event delegation, event bubbling özelliğinden yararlanarak, her child element'e 
+            ayrı ayrı listener eklemek yerine, parent element'e tek bir listener ekleme tekniğidir.
+        </p>
+
+        <h3>❌ Normal Yöntem (Her Elemente Listener):</h3>
+        <pre>// Her butona ayrı listener ekleme
+const buttons = document.querySelectorAll(".deleteBtn");
+buttons.forEach(button => {
+    button.addEventListener("click", function() {
+        this.parentElement.remove();
+    });
+});
+
+// Problem: Yeni eklenen butonlar için çalışmaz!</pre>
+
+        <h3>✅ Event Delegation Yöntemi:</h3>
+        <pre>// Parent'a tek listener ekleme
+const list = document.getElementById("itemList");
+list.addEventListener("click", function(e) {
+    // Tıklanan element deleteBtn mi kontrol et
+    if (e.target.classList.contains("deleteBtn")) {
+        e.target.parentElement.remove();
+    }
+});
+
+// Avantaj: Yeni eklenen butonlar da otomatik çalışır!</pre>
+
+        <h3>Pratik Örnek:</h3>
+        <p>
+            Aşağıdaki örnekte, yeni öğeler eklendiğinde bile "Sil" butonları çalışır 
+            çünkü event listener parent element'te (ul) tanımlıdır.
+        </p>
+        <button id="addItemBtn">Yeni Öğe Ekle</button>
+        <ul id="itemList" style="list-style: none; padding: 0;">
+            <li style="padding: 15px 20px; margin: 10px 0; background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%); border-radius: 12px; border-left: 4px solid #d946ef; display: flex; justify-content: space-between; align-items: center;">
+                Öğe 1 <button class="deleteBtn">Sil</button>
+            </li>
+            <li style="padding: 15px 20px; margin: 10px 0; background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%); border-radius: 12px; border-left: 4px solid #d946ef; display: flex; justify-content: space-between; align-items: center;">
+                Öğe 2 <button class="deleteBtn">Sil</button>
+            </li>
+        </ul>
+
+        <h3>Event Delegation'un Avantajları:</h3>
+        <ul>
+            <li>✅ <strong>Performans:</strong> Tek bir listener, birden fazla element için çalışır</li>
+            <li>✅ <strong>Dinamik Elementler:</strong> Sonradan eklenen elementler için de çalışır</li>
+            <li>✅ <strong>Memory:</strong> Daha az memory kullanımı</li>
+            <li>✅ <strong>Kod Organizasyonu:</strong> Daha temiz ve bakımı kolay kod</li>
+            <li>✅ <strong>Esneklik:</strong> Element yapısı değişse bile çalışır</li>
+        </ul>
+
+        <h3>e.target Kullanımı:</h3>
+        <p>
+            Event delegation'da <strong>e.target</strong> ile hangi child element'in 
+            tıklandığını öğrenebiliriz.
+        </p>
+        <pre>parent.addEventListener("click", function(e) {
+    // e.target: Gerçekten tıklanan element
+    // e.currentTarget: Listener'ın eklendiği element (parent)
+    
+    if (e.target.classList.contains("deleteBtn")) {
+        // Sil butonuna tıklandı
+    } else if (e.target.tagName === "LI") {
+        // Liste öğesine tıklandı
+    }
+});</pre>
+
+        <h3>Kullanım Senaryoları:</h3>
+        <ul>
+            <li>Dinamik liste öğeleri (todo list, shopping cart)</li>
+            <li>Tab menüleri</li>
+            <li>Modal pencereler</li>
+            <li>Form alanları (dinamik eklenen)</li>
+            <li>Büyük tablolarda satır tıklamaları</li>
+        </ul>
+
+        <h3>Best Practices:</h3>
+        <ul>
+            <li>✅ Parent element'e mümkün olduğunca yakın ekleyin</li>
+            <li>✅ e.target ile doğru element kontrolü yapın</li>
+            <li>✅ closest() metodu ile parent element bulun</li>
+            <li>✅ Event delegation'u gereksiz yere kullanmayın (basit durumlarda normal listener yeterli)</li>
+        </ul>
+
+        <h3>closest() Metodu ile Gelişmiş Kullanım:</h3>
+        <pre>list.addEventListener("click", function(e) {
+    // En yakın .item class'ına sahip elementi bul
+    const item = e.target.closest(".item");
+    if (item) {
+        // item içindeki herhangi bir yere tıklandı
+        item.remove();
+    }
+});</pre>
+    </div>
+
+    <!-- 2.11. preventDefault ve stopPropagation -->
+    <div class="container">
+        <h2>2.11. preventDefault() ve stopPropagation()</h2>
+        <p>
+            Event Object'in iki önemli metodu, event davranışını kontrol etmemize olanak sağlar.
+        </p>
+
+        <h3>preventDefault() Nedir?</h3>
+        <p>
+            <strong>e.preventDefault()</strong>, event'in varsayılan davranışını engeller. 
+            Örneğin, bir link'e tıklandığında sayfa yönlendirmesini engelleyebiliriz.
+        </p>
+
+        <h3>preventDefault() Kullanım Senaryoları:</h3>
+        <ul>
+            <li><strong>Form gönderimi:</strong> Sayfa yenilenmesini engellemek (AJAX için)</li>
+            <li><strong>Link tıklaması:</strong> Sayfa yönlendirmesini engellemek</li>
+            <li><strong>Kısayol tuşları:</strong> Tarayıcı kısayollarını engellemek (Ctrl+S)</li>
+            <li><strong>Context menu:</strong> Sağ tıklama menüsünü engellemek</li>
+        </ul>
+
+        <h3>Örnekler:</h3>
+        <pre>// Form gönderimini engelle
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    // AJAX ile gönder
+});
+
+// Link tıklamasını engelle
+link.addEventListener("click", function(e) {
+    e.preventDefault();
+    // Özel işlem yap
+});
+
+// Kısayol tuşunu engelle
+document.addEventListener("keydown", function(e) {
+    if (e.ctrlKey && e.key === "s") {
+        e.preventDefault(); // Tarayıcının kaydetme menüsünü engelle
+        customSave();
+    }
+});</pre>
+
+        <h3>stopPropagation() Nedir?</h3>
+        <p>
+            <strong>e.stopPropagation()</strong>, event'in DOM ağacında yayılmasını durdurur. 
+            Bubbling veya capturing fazında event'in parent elementlere ulaşmasını engeller.
+        </p>
+
+        <h3>stopPropagation() Kullanım Senaryoları:</h3>
+        <ul>
+            <li>Modal pencereler (dışarı tıklamada kapatma kontrolü)</li>
+            <li>Dropdown menüler (dışarı tıklamada kapatma)</li>
+            <li>Nested elementler (iç element tıklamasında dış elementin tetiklenmemesi)</li>
+        </ul>
+
+        <h3>Örnek:</h3>
+        <pre>button.addEventListener("click", function(e) {
+    e.stopPropagation(); // Parent elementlerdeki listener'lar çalışmaz
+    console.log("Sadece bu çalışır");
+});
+
+// stopImmediatePropagation() - Aynı elementteki diğer listener'ları da durdurur
+button.addEventListener("click", function(e) {
+    e.stopImmediatePropagation();
+    console.log("Sadece bu çalışır, aynı elementteki diğer listener'lar çalışmaz");
+});</pre>
+
+        <h3>İkisini Birlikte Kullanma:</h3>
+        <pre>button.addEventListener("click", function(e) {
+    e.preventDefault();      // Varsayılan davranışı engelle
+    e.stopPropagation();    // Event yayılmasını durdur
+    // Özel işlem
+});</pre>
+    </div>
+
+    <!-- 2.12. Özet ve Best Practices -->
+    <div class="container">
+        <h2>2.12. Özet ve Best Practices</h2>
+        
+        <h3>DOM Eventleri Özeti:</h3>
+        <ul>
+            <li>✅ <strong>addEventListener</strong> kullanın (onclick yerine)</li>
+            <li>✅ Event listener'ları sayfa yüklendikten sonra ekleyin</li>
+            <li>✅ Gereksiz listener'ları kaldırın (memory leak önleme)</li>
+            <li>✅ Event delegation kullanın (dinamik elementler için)</li>
+            <li>✅ preventDefault() ile varsayılan davranışları kontrol edin</li>
+            <li>✅ stopPropagation()'ı dikkatli kullanın</li>
+        </ul>
+
+        <h3>Event Türleri Özeti:</h3>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; min-width: 500px;">
+                <tr style="background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Event Türü</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Kullanım</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>click</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Buton tıklamaları, menü açma</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>mouseenter/leave</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Hover efektleri, tooltip</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>keydown/keyup</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Klavye girdileri, kısayol tuşları</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>input</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Anlık form değişiklikleri</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>submit</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Form gönderimi</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>focus/blur</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Input odak yönetimi</td>
+                </tr>
+            </table>
+        </div>
+
+        <h3>Yaygın Hatalar ve Çözümleri:</h3>
+        <ul>
+            <li>❌ <strong>Hata:</strong> HTML'de onclick kullanmak<br>
+                ✅ <strong>Çözüm:</strong> addEventListener kullanın</li>
+            <li>❌ <strong>Hata:</strong> removeEventListener'da fonksiyon referansı hatası<br>
+                ✅ <strong>Çözüm:</strong> Fonksiyonu değişkende saklayın</li>
+            <li>❌ <strong>Hata:</strong> Dinamik elementlere listener eklemek<br>
+                ✅ <strong>Çözüm:</strong> Event delegation kullanın</li>
+            <li>❌ <strong>Hata:</strong> Gereksiz event listener'ları kaldırmamak<br>
+                ✅ <strong>Çözüm:</strong> Component cleanup'ında kaldırın</li>
+        </ul>
+
+        <h3>Performans İpuçları:</h3>
+        <ul>
+            <li>✅ Event delegation kullanın (büyük listeler için)</li>
+            <li>✅ Debounce/throttle kullanın (sık tetiklenen event'ler için)</li>
+            <li>✅ Gereksiz listener'ları kaldırın</li>
+            <li>✅ Passive event listener'ları kullanın (scroll için)</li>
+        </ul>
+
+        <h3>Sonuç:</h3>
+        <p>
+            DOM Eventleri, modern web geliştirmenin temel taşlarından biridir. 
+            Bu konuları iyi anlamak, interaktif ve kullanıcı dostu web uygulamaları 
+            geliştirmek için kritik öneme sahiptir. Pratik yaparak ve gerçek projelerde 
+            kullanarak bu bilgileri pekiştirebilirsiniz.
+        </p>
+    </div>
+
+    <script>
+        // 2.2. addEventListener Örneği
+        const clickBtn = document.getElementById("clickBtn");
+        const clickResult = document.getElementById("clickResult");
+        
+        clickBtn.addEventListener("click", function() {
+            clickResult.style.display = "block";
+            clickResult.style.animation = "slideIn 0.4s ease";
+            clickBtn.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                clickBtn.style.transform = "scale(1)";
+            }, 150);
+            setTimeout(() => {
+                clickResult.style.animation = "slideOut 0.4s ease";
+                setTimeout(() => {
+                    clickResult.style.display = "none";
+                }, 400);
+            }, 2000);
+        });
+
+        // 2.3. Click Event Örnekleri
+        
+        // Sayaç Örneği
+        let count = 0;
+        const counterBtn = document.getElementById("counterBtn");
+        const counter = document.getElementById("counter");
+        
+        counterBtn.addEventListener("click", function() {
+            count++;
+            counter.textContent = count;
+            counter.style.animation = "pulse 0.3s ease";
+            setTimeout(() => {
+                counter.style.animation = "";
+            }, 300);
+        });
+
+        // Renk Değiştirme
+        const colorBox = document.getElementById("colorBox");
+        const changeColorBtn = document.getElementById("changeColorBtn");
+        const colors = ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"];
+        let colorIndex = 0;
+        
+        changeColorBtn.addEventListener("click", function() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            const gradientColors = [
+                "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+                "linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)",
+                "linear-gradient(135deg, #a855f7 0%, #d946ef 100%)",
+                "linear-gradient(135deg, #d946ef 0%, #ec4899 100%)",
+                "linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)",
+                "linear-gradient(135deg, #6366f1 0%, #d946ef 100%)"
+            ];
+            colorBox.style.background = gradientColors[colorIndex];
+            colorBox.style.transform = "scale(1.1) rotate(5deg)";
+            setTimeout(() => {
+                colorBox.style.transform = "scale(1) rotate(0deg)";
+            }, 300);
+        });
+
+        // Gizle/Göster
+        const toggleBtn = document.getElementById("toggleBtn");
+        const toggleBox = document.getElementById("toggleBox");
+        
+        toggleBtn.addEventListener("click", function() {
+            if (toggleBox.style.display === "none") {
+                toggleBox.style.display = "flex";
+                toggleBtn.textContent = "Gizle";
+            } else {
+                toggleBox.style.display = "none";
+                toggleBtn.textContent = "Göster";
+            }
+        });
+
+        // 2.4. Mouse Event Örnekleri
+        
+        // mouseenter ve mouseleave
+        const hoverBox = document.getElementById("hoverBox");
+        const hoverResult = document.getElementById("hoverResult");
+        
+        hoverBox.addEventListener("mouseenter", function() {
+            hoverResult.style.display = "block";
+            hoverResult.textContent = "Fare kutu üzerinde! 🖱️";
+            hoverResult.style.animation = "slideIn 0.4s ease";
+            hoverBox.style.transform = "scale(1.15) rotate(3deg)";
+            hoverBox.style.boxShadow = "0 15px 40px rgba(217, 70, 239, 0.6)";
+        });
+        
+        hoverBox.addEventListener("mouseleave", function() {
+            hoverResult.style.display = "block";
+            hoverResult.textContent = "Fare kutudan ayrıldı 👋";
+            hoverResult.style.animation = "slideIn 0.4s ease";
+            hoverBox.style.transform = "scale(1) rotate(0deg)";
+            hoverBox.style.boxShadow = "0 8px 25px rgba(217, 70, 239, 0.4)";
+            setTimeout(() => {
+                hoverResult.style.animation = "slideOut 0.4s ease";
+                setTimeout(() => {
+                    hoverResult.style.display = "none";
+                }, 400);
+            }, 1000);
+        });
+
+        // mousedown ve mouseup
+        const pressBox = document.getElementById("pressBox");
+        const pressResult = document.getElementById("pressResult");
+        
+        pressBox.addEventListener("mousedown", function() {
+            pressResult.style.display = "block";
+            pressResult.textContent = "Fare tuşu basılı! 👆";
+            pressResult.style.animation = "slideIn 0.3s ease";
+            pressBox.style.transform = "scale(0.9)";
+            pressBox.style.boxShadow = "0 4px 15px rgba(139, 92, 246, 0.5)";
+        });
+        
+        pressBox.addEventListener("mouseup", function() {
+            pressResult.style.display = "block";
+            pressResult.textContent = "Fare tuşu bırakıldı! ✋";
+            pressResult.style.animation = "slideIn 0.3s ease";
+            pressBox.style.transform = "scale(1.05)";
+            pressBox.style.boxShadow = "0 8px 25px rgba(139, 92, 246, 0.4)";
+            setTimeout(() => {
+                pressBox.style.transform = "scale(1)";
+            }, 200);
+            setTimeout(() => {
+                pressResult.style.animation = "slideOut 0.4s ease";
+                setTimeout(() => {
+                    pressResult.style.display = "none";
+                }, 400);
+            }, 1000);
+        });
+
+        // 2.5. Keyboard Event Örnekleri
+        
+        const keyboardInput = document.getElementById("keyboardInput");
+        const keyboardResult = document.getElementById("keyboardResult");
+        
+        keyboardInput.addEventListener("keydown", function(e) {
+            keyboardResult.style.display = "block";
+            keyboardResult.style.animation = "slideIn 0.3s ease";
+            keyboardResult.innerHTML = `
+                <strong>Keydown:</strong> "${e.key}" tuşuna basıldı<br>
+                <strong>Key Code:</strong> ${e.keyCode}<br>
+                <strong>Ctrl:</strong> ${e.ctrlKey ? "Evet" : "Hayır"}<br>
+                <strong>Shift:</strong> ${e.shiftKey ? "Evet" : "Hayır"}
+            `;
+            keyboardInput.style.borderColor = "#8b5cf6";
+            keyboardInput.style.transform = "scale(1.02)";
+            setTimeout(() => {
+                keyboardInput.style.transform = "scale(1)";
+            }, 200);
+        });
+
+        const enterInput = document.getElementById("enterInput");
+        const enterResult = document.getElementById("enterResult");
+        
+        enterInput.addEventListener("keyup", function(e) {
+            if (e.key === "Enter") {
+                enterResult.style.display = "block";
+                enterResult.style.animation = "slideIn 0.4s ease";
+                enterResult.textContent = `Girilen değer: "${e.target.value}"`;
+                enterInput.style.borderColor = "#a855f7";
+                enterInput.style.transform = "scale(1.05)";
+                setTimeout(() => {
+                    enterInput.style.transform = "scale(1)";
+                }, 300);
+            }
+        });
+
+        // 2.6. Form Event Örnekleri
+        
+        // input Event
+        const inputField = document.getElementById("inputField");
+        const inputResult = document.getElementById("inputResult");
+        
+        inputField.addEventListener("input", function(e) {
+            const length = e.target.value.length;
+            inputResult.textContent = `Karakter sayısı: ${length}`;
+            inputResult.style.animation = "pulse 0.2s ease";
+            setTimeout(() => {
+                inputResult.style.animation = "";
+            }, 200);
+        });
+
+        // change Event
+        const selectField = document.getElementById("selectField");
+        const selectResult = document.getElementById("selectResult");
+        
+        selectField.addEventListener("change", function(e) {
+            selectResult.style.display = "block";
+            selectResult.style.animation = "slideIn 0.4s ease";
+            selectResult.textContent = `Seçilen şehir: ${e.target.value.toUpperCase()}`;
+            selectField.style.borderColor = "#8b5cf6";
+            selectField.style.transform = "scale(1.02)";
+            setTimeout(() => {
+                selectField.style.transform = "scale(1)";
+            }, 200);
+        });
+
+        // submit Event
+        const myForm = document.getElementById("myForm");
+        const formResult = document.getElementById("formResult");
+        
+        myForm.addEventListener("submit", function(e) {
+            e.preventDefault(); // Formun varsayılan gönderimini engelle
+            
+            const name = document.getElementById("formName").value;
+            const email = document.getElementById("formEmail").value;
+            
+            formResult.style.display = "block";
+            formResult.style.animation = "slideIn 0.5s ease";
+            formResult.innerHTML = `
+                <strong>✅ Form Gönderildi!</strong><br>
+                Ad: ${name}<br>
+                E-posta: ${email}
+            `;
+            
+            // Formu temizle
+            setTimeout(() => {
+                myForm.reset();
+                const inputs = myForm.querySelectorAll("input");
+                inputs.forEach(input => {
+                    input.style.transform = "scale(0.98)";
+                    setTimeout(() => {
+                        input.style.transform = "scale(1)";
+                    }, 200);
+                });
+            }, 100);
+        });
+
+        // 2.7. Event Object Örnekleri
+        
+        const eventInfoBtn = document.getElementById("eventInfoBtn");
+        const eventInfoResult = document.getElementById("eventInfoResult");
+        
+        eventInfoBtn.addEventListener("click", function(e) {
+            eventInfoResult.style.display = "block";
+            eventInfoResult.style.animation = "slideIn 0.4s ease";
+            eventInfoResult.innerHTML = `
+                <strong>Event Type:</strong> ${e.type}<br>
+                <strong>Target:</strong> ${e.target.tagName}<br>
+                <strong>Current Target:</strong> ${e.currentTarget.tagName}<br>
+                <strong>Timestamp:</strong> ${e.timeStamp}<br>
+                <strong>Bubbles:</strong> ${e.bubbles}
+            `;
+        });
+
+        // Mouse Pozisyonu
+        const mousePosBox = document.getElementById("mousePosBox");
+        const mousePosResult = document.getElementById("mousePosResult");
+        
+        mousePosBox.addEventListener("mousemove", function(e) {
+            mousePosResult.style.display = "block";
+            const rect = mousePosBox.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            mousePosResult.textContent = `X: ${Math.round(x)}, Y: ${Math.round(y)}`;
+            mousePosBox.style.transform = `scale(1.05) rotate(${(x - 110) / 10}deg)`;
+        });
+        
+        mousePosBox.addEventListener("mouseleave", function() {
+            mousePosBox.style.transform = "scale(1) rotate(0deg)";
+        });
+
+        // 2.8. Event Propagation
+        
+        const outerBox = document.getElementById("outerBox");
+        const innerBox = document.getElementById("innerBox");
+        const stopPropBtn = document.getElementById("stopPropBtn");
+        const propagationResult = document.getElementById("propagationResult");
+        
+        outerBox.addEventListener("click", function(e) {
+            propagationResult.style.display = "block";
+            propagationResult.style.animation = "slideIn 0.4s ease";
+            propagationResult.textContent = "Dış kutu tıklandı!";
+            outerBox.style.transform = "scale(0.98)";
+            setTimeout(() => {
+                outerBox.style.transform = "scale(1)";
+            }, 200);
+        });
+        
+        innerBox.addEventListener("click", function(e) {
+            propagationResult.style.display = "block";
+            propagationResult.style.animation = "slideIn 0.4s ease";
+            propagationResult.textContent = "İç kutu tıklandı!";
+            innerBox.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                innerBox.style.transform = "scale(1)";
+            }, 200);
+        });
+        
+        stopPropBtn.addEventListener("click", function(e) {
+            e.stopPropagation(); // Event'in yukarı yayılmasını durdur
+            propagationResult.style.display = "block";
+            propagationResult.style.animation = "slideIn 0.4s ease";
+            propagationResult.textContent = "Buton tıklandı - Propagation durduruldu!";
+            stopPropBtn.style.transform = "scale(0.9)";
+            setTimeout(() => {
+                stopPropBtn.style.transform = "scale(1)";
+            }, 200);
+        });
+
+        // 2.9. removeEventListener
+        
+        const addListenerBtn = document.getElementById("addListenerBtn");
+        const removeListenerBtn = document.getElementById("removeListenerBtn");
+        const testBtn = document.getElementById("testBtn");
+        const listenerResult = document.getElementById("listenerResult");
+        
+        // Fonksiyonu dışarıda tanımla (referans için gerekli)
+        function testButtonHandler() {
+            listenerResult.style.display = "block";
+            listenerResult.textContent = "Test butonu tıklandı! Event listener çalışıyor.";
+        }
+        
+        addListenerBtn.addEventListener("click", function() {
+            testBtn.addEventListener("click", testButtonHandler);
+            listenerResult.style.display = "block";
+            listenerResult.style.animation = "slideIn 0.4s ease";
+            listenerResult.textContent = "✅ Event listener eklendi!";
+        });
+        
+        removeListenerBtn.addEventListener("click", function() {
+            testBtn.removeEventListener("click", testButtonHandler);
+            listenerResult.style.display = "block";
+            listenerResult.style.animation = "slideIn 0.4s ease";
+            listenerResult.textContent = "❌ Event listener kaldırıldı!";
+        });
+
+        // 2.10. Event Delegation
+        
+        const addItemBtn = document.getElementById("addItemBtn");
+        const itemList = document.getElementById("itemList");
+        let itemCount = 2;
+        
+        addItemBtn.addEventListener("click", function() {
+            itemCount++;
+            const newItem = document.createElement("li");
+            newItem.style.cssText = "padding: 15px 20px; margin: 10px 0; background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%); border-radius: 12px; border-left: 4px solid #d946ef; display: flex; justify-content: space-between; align-items: center; opacity: 0; transform: translateY(-20px);";
+            newItem.innerHTML = `Öğe ${itemCount} <button class=\"deleteBtn\">Sil</button>`;
+            itemList.appendChild(newItem);
+            
+            // Animasyon ekle
+            setTimeout(() => {
+                newItem.style.transition = "all 0.4s ease";
+                newItem.style.opacity = "1";
+                newItem.style.transform = "translateY(0)";
+            }, 10);
+        });
+        
+        // Event delegation: Parent'a listener ekle, child'lardaki butonları dinle
+        itemList.addEventListener("click", function(e) {
+            if (e.target.classList.contains("deleteBtn")) {
+                const item = e.target.parentElement;
+                item.style.transition = "all 0.3s ease";
+                item.style.opacity = "0";
+                item.style.transform = "translateX(-100px)";
+                setTimeout(() => {
+                    item.remove();
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>
+
