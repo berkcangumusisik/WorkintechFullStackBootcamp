@@ -207,3 +207,5 @@ Sprint 2'de JavaScript'in ileri seviye özelliklerini öğrenerek programlama be
 [⬆️ Yukarı Dön](#icerik)
 
 ---
+
+
