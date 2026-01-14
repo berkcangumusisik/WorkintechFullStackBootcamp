@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Nedir?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        h2 {
+            color: #667eea;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #667eea, #764ba2, #f093fb) 1;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        
+        h3 {
+            color: #555;
+            margin: 20px 0 15px 0;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+        
+        p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .definition-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-align: center;
+        }
+        
+        .definition-box strong {
+            font-size: 1.3em;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .analogy-box {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #3b82f6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+        }
+        
+        .analogy-box h4 {
+            color: #1e3a8a;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .analogy-box p {
+            color: #1e293b;
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        .analogy-box ul {
+            color: #1e293b;
+        }
+        
+        .analogy-box ul li {
+            color: #1e293b;
+            font-weight: 500;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .info-box p {
+            color: #333;
+            margin: 0;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .example-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .example-card h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .example-card.social {
+            border-left-color: #3b82f6;
+        }
+        
+        .example-card.social h4 {
+            color: #3b82f6;
+        }
+        
+        .example-card.weather {
+            border-left-color: #10b981;
+        }
+        
+        .example-card.weather h4 {
+            color: #10b981;
+        }
+        
+        .example-card.payment {
+            border-left-color: #f59e0b;
+        }
+        
+        .example-card.payment h4 {
+            color: #f59e0b;
+        }
+        
+        .example-card.map {
+            border-left-color: #ef4444;
+        }
+        
+        .example-card.map h4 {
+            color: #ef4444;
+        }
+        
+        .code-example {
+            background: linear-gradient(135deg, #1a1f35 0%, #2d1b4e 100%);
+            color: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 0.9em;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-left: 4px solid #8b5cf6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            display: block;
+            line-height: 1.8;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+        }
+        
+        .code-example .keyword {
+            color: #f472b6;
+            font-weight: 600;
+        }
+        
+        .code-example .function {
+            color: #60a5fa;
+            font-weight: 500;
+        }
+        
+        .code-example .string {
+            color: #34d399;
+            font-weight: 500;
+        }
+        
+        .code-example .comment {
+            color: #94a3b8;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .flow-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .flow-box h4 {
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        
+        .flow-box p {
+            color: #475569;
+            font-weight: 500;
+        }
+        
+        .flow-arrow {
+            font-size: 3em;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .flow-diagram {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>API Nedir?</h1>
+    
+    <div class="container">
+        <div class="definition-box">
+            <strong>API (Application Programming Interface)</strong>
+            <p>Farklı yazılımların birbirleriyle iletişim kurmasını sağlayan bir arayüzdür. Bir uygulamanın başka bir uygulamanın özelliklerini kullanmasına izin veren kurallar ve protokoller bütünüdür.</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Basit Bir Benzetme</h2>
+        <div class="analogy-box">
+            <h4>🍽️ Restoran Benzetmesi</h4>
+            <p>API'yi bir restorandaki <strong>menü</strong> gibi düşünebilirsiniz:</p>
+            <ul style="margin-top: 15px; color: #1e293b;">
+                <li><strong>Menü (API):</strong> Ne yiyebileceğinizi gösterir</li>
+                <li><strong>Garson (Request):</strong> Siparişinizi mutfağa iletir</li>
+                <li><strong>Mutfak (Server):</strong> İstediğiniz yemeği hazırlar</li>
+                <li><strong>Yemek (Response):</strong> Hazırlanan yemek size gelir</li>
+            </ul>
+            <p style="margin-top: 15px; color: #1e293b; font-weight: 500;">Siz mutfağa giremezsiniz, sadece menüdeki seçenekleri kullanabilirsiniz. API de aynı şekilde çalışır!</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>API Nasıl Çalışır?</h2>
+        <div class="flow-diagram">
+            <div class="flow-box">
+                <h4>1. İstemci (Client)</h4>
+                <p>Bir istek gönderir</p>
+                <div class="code-example" style="margin-top: 15px; font-size: 0.8em;">
+<span class="comment">// Örnek: Hava durumu API'sine istek</span>
+axios.<span class="function">get</span>(<span class="string">'api.weather.com/today'</span>)
+                </div>
+            </div>
+            
+            <div class="flow-arrow">→</div>
+            
+            <div class="flow-box">
+                <h4>2. API</h4>
+                <p>İsteği işler ve sunucuya iletir</p>
+            </div>
+            
+            <div class="flow-arrow">→</div>
+            
+            <div class="flow-box">
+                <h4>3. Sunucu (Server)</h4>
+                <p>Veriyi hazırlar ve geri gönderir</p>
+            </div>
+            
+            <div class="flow-arrow">→</div>
+            
+            <div class="flow-box">
+                <h4>4. Yanıt (Response)</h4>
+                <p>İstemci veriyi alır ve gösterir</p>
+                <div class="code-example" style="margin-top: 15px; font-size: 0.8em;">
+{
+  <span class="string">"temperature"</span>: <span class="string">25</span>,
+  <span class="string">"condition"</span>: <span class="string">"Sunny"</span>
+}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Günlük Hayattan Örnekler</h2>
+        <div class="example-grid">
+            <div class="example-card social">
+                <h4>📱 Sosyal Medya</h4>
+                <p>Instagram'da "Facebook ile Giriş Yap" butonuna tıkladığınızda, Instagram Facebook API'sini kullanarak sizin bilgilerinizi alır.</p>
+            </div>
+            
+            <div class="example-card weather">
+                <h4>🌤️ Hava Durumu</h4>
+                <p>Telefonunuzdaki hava durumu uygulaması, bir hava durumu API'sinden veri çekerek size gösterir.</p>
+            </div>
+            
+            <div class="example-card payment">
+                <h4>💳 Ödeme Sistemleri</h4>
+                <p>Online alışveriş yaparken "PayPal ile Öde" seçeneği, PayPal API'sini kullanarak ödemeyi işler.</p>
+            </div>
+            
+            <div class="example-card map">
+                <h4>🗺️ Harita Servisleri</h4>
+                <p>Uber uygulaması Google Maps API'sini kullanarak konumunuzu ve rotayı gösterir.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>API Kullanım Örneği</h2>
+        <p>Bir web uygulamasında API'den veri çekme örneği:</p>
+        
+        <div class="code-example">
+<span class="comment">// Axios ile API'den veri çekme</span>
+<span class="keyword">async</span> <span class="keyword">function</span> <span class="function">kullanicilariGetir</span>() {
+    <span class="keyword">try</span> {
+        <span class="comment">// API'ye GET isteği gönder</span>
+        <span class="keyword">const</span> response = <span class="keyword">await</span> axios.<span class="function">get</span>(<span class="string">'https://api.example.com/users'</span>);
+        
+        <span class="comment">// Gelen veriyi kullan</span>
+        <span class="function">console</span>.<span class="function">log</span>(response.data);
+        <span class="comment">// [{ id: 1, name: "Ahmet" }, { id: 2, name: "Mehmet" }]</span>
+    } <span class="keyword">catch</span> (error) {
+        <span class="function">console</span>.<span class="function">error</span>(<span class="string">'Hata:'</span>, error);
+    }
+}
+
+<span class="function">kullanicilariGetir</span>();
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>API'nin Avantajları</h2>
+        <ul>
+            <li><strong>Yeniden Kullanılabilirlik:</strong> Başkalarının yazdığı kodları kullanabilirsiniz</li>
+            <li><strong>Zaman Tasarrufu:</strong> Her şeyi sıfırdan yazmanıza gerek yok</li>
+            <li><strong>Güvenlik:</strong> Veritabanınıza doğrudan erişim yerine kontrollü erişim sağlar</li>
+            <li><strong>Ölçeklenebilirlik:</strong> Farklı platformlarda aynı API kullanılabilir</li>
+            <li><strong>Standartlaşma:</strong> Herkes aynı kurallara göre çalışır</li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <h2>Özet</h2>
+        <p><span class="highlight">API</span>, farklı yazılımların birbirleriyle konuşmasını sağlayan bir <span class="highlight">arayüzdür</span>. Tıpkı bir restorandaki menü gibi, ne yapabileceğinizi gösterir ve nasıl yapacağınızı belirler.</p>
+        
+        <div class="info-box">
+            <p><strong>💡 Önemli:</strong> API'ler genellikle HTTP protokolü üzerinden çalışır ve JSON formatında veri alışverişi yapar. Axios, fetch gibi araçlarla API'lere istek gönderebilirsiniz.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Sayfa yüklendiğinde animasyon efektleri
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.example-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
