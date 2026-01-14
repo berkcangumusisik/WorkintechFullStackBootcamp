@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request ve Response Tanımı</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            animation: fadeInDown 0.8s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        h2 {
+            color: #667eea;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #667eea, #764ba2, #f093fb) 1;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        
+        h3 {
+            color: #555;
+            margin: 20px 0 15px 0;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+        
+        p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .definition-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        .crud-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .crud-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .crud-letter {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #667eea;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .crud-letter:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .operation-name {
+            padding: 10px 20px;
+            background: white;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #555;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .http-method {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: white;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1em;
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+            min-width: 120px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .http-method:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(79, 172, 254, 0.5);
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        
+        .method-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .method-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .method-card.post {
+            border-left-color: #10b981;
+        }
+        
+        .method-card.get {
+            border-left-color: #3b82f6;
+        }
+        
+        .method-card.put {
+            border-left-color: #f59e0b;
+        }
+        
+        .method-card.delete {
+            border-left-color: #ef4444;
+        }
+        
+        .method-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .method-card.post .method-title {
+            color: #10b981;
+        }
+        
+        .method-card.get .method-title {
+            color: #3b82f6;
+        }
+        
+        .method-card.put .method-title {
+            color: #f59e0b;
+        }
+        
+        .method-card.delete .method-title {
+            color: #ef4444;
+        }
+        
+        .method-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .method-example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #333;
+            border-left: 3px solid #667eea;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .info-box p {
+            color: #333;
+            margin: 0;
+        }
+        
+        .response-box {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        .request-response-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .flow-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .flow-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .flow-arrow {
+            font-size: 3em;
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .status-code-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .status-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .status-card.success {
+            border-left-color: #10b981;
+        }
+        
+        .status-card.client-error {
+            border-left-color: #f59e0b;
+        }
+        
+        .status-card.server-error {
+            border-left-color: #ef4444;
+        }
+        
+        .status-card.info {
+            border-left-color: #3b82f6;
+        }
+        
+        .status-number {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .status-card.success .status-number {
+            color: #10b981;
+        }
+        
+        .status-card.client-error .status-number {
+            color: #f59e0b;
+        }
+        
+        .status-card.server-error .status-number {
+            color: #ef4444;
+        }
+        
+        .status-card.info .status-number {
+            color: #3b82f6;
+        }
+        
+        .status-name {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        
+        .status-description {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .response-example {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-left: 4px solid #10b981;
+        }
+        
+        .response-example .status-line {
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .response-example .header-line {
+            color: #60a5fa;
+        }
+        
+        .response-example .body-line {
+            color: #fbbf24;
+        }
+        
+        @media (max-width: 768px) {
+            .crud-diagram {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>1.1. Request ve Response Tanımı</h1>
+    
+    <div class="container">
+        <h2>Request Nedir?</h2>
+        <div class="definition-box">
+            <p><strong>Request</strong>, bir istemcinin (client) bir sunucudan (server) bilgi veya işlem talep ettiği bir işlemi ifade eder.</p>
+        </div>
+        
+        <p>Web geliştirmede, request'ler web uygulamalarının temel yapı taşlarından biridir. Kullanıcı bir web sayfasını ziyaret ettiğinde, bir form gönderdiğinde veya bir API'ye veri çekmek istediğinde, arka planda bir request işlemi gerçekleşir.</p>
+        
+        <div class="info-box">
+            <p><strong>💡 Önemli:</strong> Request'ler CRUD işlemlerinde kullanılır.</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>CRUD İşlemleri</h2>
+        <p>CRUD, web uygulamalarında en temel veri işlemlerini temsil eden bir kısaltmadır:</p>
+        
+        <div class="crud-diagram">
+            <div class="crud-column">
+                <div class="crud-letter">C</div>
+                <div class="crud-letter">R</div>
+                <div class="crud-letter">U</div>
+                <div class="crud-letter">D</div>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <div class="crud-column">
+                <div class="operation-name">Create</div>
+                <div class="operation-name">Read</div>
+                <div class="operation-name">Update</div>
+                <div class="operation-name">Delete</div>
+            </div>
+            
+            <div class="arrow">→</div>
+            
+            <div class="crud-column">
+                <div class="http-method">POST</div>
+                <div class="http-method">GET</div>
+                <div class="http-method">PUT</div>
+                <div class="http-method">DELETE</div>
+            </div>
+        </div>
+        
+        <h3>CRUD Açıklamaları:</h3>
+        <ul>
+            <li><strong>C - Create (Oluştur):</strong> Yeni bir kayıt oluşturma işlemi</li>
+            <li><strong>R - Read (Okuma):</strong> Mevcut kayıtları görüntüleme veya okuma işlemi</li>
+            <li><strong>U - Update (Güncelleme):</strong> Mevcut bir kaydı düzenleme veya güncelleme işlemi</li>
+            <li><strong>D - Delete (Silme):</strong> Mevcut bir kaydı silme işlemi</li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <h2>HTTP Methods (HTTP Metodları)</h2>
+        <p>Her CRUD işlemi, belirli bir HTTP metodu ile gerçekleştirilir. HTTP metodları, sunucuya ne tür bir işlem yapmak istediğimizi bildirir.</p>
+        
+        <div class="method-details">
+            <div class="method-card post">
+                <div class="method-title">POST</div>
+                <div class="method-description">
+                    <strong>Create (Oluştur)</strong> işlemi için kullanılır. Yeni bir kayıt oluşturmak istediğimizde POST metodu kullanırız.
+                </div>
+                <div class="method-example">
+                    POST /api/users<br>
+                    Body: { "name": "Ahmet", "email": "ahmet@example.com" }
+                </div>
+            </div>
+            
+            <div class="method-card get">
+                <div class="method-title">GET</div>
+                <div class="method-description">
+                    <strong>Read (Okuma)</strong> işlemi için kullanılır. Mevcut verileri görüntülemek veya okumak istediğimizde GET metodu kullanırız.
+                </div>
+                <div class="method-example">
+                    GET /api/users<br>
+                    GET /api/users/123
+                </div>
+            </div>
+            
+            <div class="method-card put">
+                <div class="method-title">PUT</div>
+                <div class="method-description">
+                    <strong>Update (Güncelleme)</strong> işlemi için kullanılır. Mevcut bir kaydı tamamen güncellemek istediğimizde PUT metodu kullanırız.
+                </div>
+                <div class="method-example">
+                    PUT /api/users/123<br>
+                    Body: { "name": "Mehmet", "email": "mehmet@example.com" }
+                </div>
+            </div>
+            
+            <div class="method-card delete">
+                <div class="method-title">DELETE</div>
+                <div class="method-description">
+                    <strong>Delete (Silme)</strong> işlemi için kullanılır. Bir kaydı silmek istediğimizde DELETE metodu kullanırız.
+                </div>
+                <div class="method-example">
+                    DELETE /api/users/123
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Özet</h2>
+        <p>Request'ler, web uygulamalarında <span class="highlight">istemci-sunucu</span> arasındaki iletişimin temelidir. Her request, belirli bir HTTP metodu kullanarak sunucuya ne yapmak istediğimizi bildirir:</p>
+        
+        <ul>
+            <li>Yeni bir şey <span class="highlight">oluşturmak</span> için → <strong>POST</strong></li>
+            <li>Mevcut bir şeyi <span class="highlight">okumak</span> için → <strong>GET</strong></li>
+            <li>Mevcut bir şeyi <span class="highlight">güncellemek</span> için → <strong>PUT</strong></li>
+            <li>Mevcut bir şeyi <span class="highlight">silmek</span> için → <strong>DELETE</strong></li>
+        </ul>
+        
+        <p>Bu dört HTTP metodu, modern web uygulamalarının temelini oluşturan CRUD işlemlerini gerçekleştirmemizi sağlar.</p>
+    </div>
+    
+    <div class="container">
+        <h2>Response (Yanıt) Nedir?</h2>
+        <div class="response-box">
+            <p><strong>Response</strong>, bir sunucunun (server) bir istemciye (client) gönderdiği yanıttır. İstemci bir request gönderdikten sonra, sunucu bu request'i işler ve sonucu bir response olarak geri döner.</p>
+        </div>
+        
+        <p>Response, sunucunun request'e verdiği cevaptır ve genellikle şu bilgileri içerir:</p>
+        <ul>
+            <li><strong>Status Code (Durum Kodu):</strong> İşlemin başarılı olup olmadığını gösteren sayısal kod</li>
+            <li><strong>Headers (Başlıklar):</strong> Response hakkında ek bilgiler (içerik tipi, tarih, vb.)</li>
+            <li><strong>Body (Gövde):</strong> İstenen veri veya hata mesajı</li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <h2>Request-Response İlişkisi</h2>
+        <p>Web uygulamalarında, her request bir response ile sonuçlanır. Bu iki yönlü iletişim, web'in temel çalışma prensibidir.</p>
+        
+        <div class="request-response-flow">
+            <div class="flow-box">
+                <h3>Client (İstemci)</h3>
+                <p>Request gönderir</p>
+                <div class="method-example" style="margin-top: 15px;">
+                    GET /api/users<br>
+                    POST /api/users
+                </div>
+            </div>
+            
+            <div class="flow-arrow">⇄</div>
+            
+            <div class="flow-box">
+                <h3>Server (Sunucu)</h3>
+                <p>Response döner</p>
+                <div class="method-example" style="margin-top: 15px;">
+                    Status: 200 OK<br>
+                    Body: { data }
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <p><strong>💡 Önemli:</strong> Her request mutlaka bir response alır. Response, başarılı bir sonuç, hata mesajı veya bilgi içerebilir.</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>HTTP Status Codes (HTTP Durum Kodları)</h2>
+        <p>Status code'lar, response'un durumunu gösteren 3 haneli sayılardır. Her status code, farklı bir durumu temsil eder:</p>
+        
+        <div class="status-code-grid">
+            <div class="status-card success">
+                <div class="status-number">200</div>
+                <div class="status-name">OK</div>
+                <div class="status-description">İstek başarıyla tamamlandı. En yaygın başarı kodu.</div>
+            </div>
+            
+            <div class="status-card success">
+                <div class="status-number">201</div>
+                <div class="status-name">Created</div>
+                <div class="status-description">Yeni bir kayıt başarıyla oluşturuldu (POST işlemlerinde).</div>
+            </div>
+            
+            <div class="status-card info">
+                <div class="status-number">204</div>
+                <div class="status-name">No Content</div>
+                <div class="status-description">İstek başarılı ama response body yok (DELETE işlemlerinde).</div>
+            </div>
+            
+            <div class="status-card client-error">
+                <div class="status-number">400</div>
+                <div class="status-name">Bad Request</div>
+                <div class="status-description">İstek geçersiz veya hatalı formatlanmış.</div>
+            </div>
+            
+            <div class="status-card client-error">
+                <div class="status-number">401</div>
+                <div class="status-name">Unauthorized</div>
+                <div class="status-description">Kimlik doğrulama gerekiyor.</div>
+            </div>
+            
+            <div class="status-card client-error">
+                <div class="status-number">404</div>
+                <div class="status-name">Not Found</div>
+                <div class="status-description">İstenen kaynak bulunamadı.</div>
+            </div>
+            
+            <div class="status-card server-error">
+                <div class="status-number">500</div>
+                <div class="status-name">Internal Server Error</div>
+                <div class="status-description">Sunucuda bir hata oluştu.</div>
+            </div>
+            
+            <div class="status-card server-error">
+                <div class="status-number">503</div>
+                <div class="status-name">Service Unavailable</div>
+                <div class="status-description">Sunucu geçici olarak kullanılamıyor.</div>
+            </div>
+        </div>
+        
+        <h3>Status Code Kategorileri:</h3>
+        <ul>
+            <li><strong>1xx (Bilgilendirme):</strong> İstek alındı, işlem devam ediyor</li>
+            <li><strong>2xx (Başarılı):</strong> İstek başarıyla alındı, anlaşıldı ve işlendi</li>
+            <li><strong>3xx (Yönlendirme):</strong> İşlemi tamamlamak için ek işlem gerekli</li>
+            <li><strong>4xx (İstemci Hatası):</strong> İstek hatalı veya geçersiz</li>
+            <li><strong>5xx (Sunucu Hatası):</strong> Sunucu geçerli bir isteği yerine getiremedi</li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <h2>Response Örneği</h2>
+        <p>Bir response'un yapısı şu şekildedir:</p>
+        
+        <div class="response-example">
+            <div class="status-line">HTTP/1.1 200 OK</div>
+            <div class="header-line">Content-Type: application/json</div>
+            <div class="header-line">Content-Length: 123</div>
+            <div class="header-line">Date: Mon, 23 May 2024 22:38:34 GMT</div>
+            <div style="margin-top: 15px;"></div>
+            <div class="body-line">{</div>
+            <div class="body-line">  "id": 1,</div>
+            <div class="body-line">  "name": "Ahmet",</div>
+            <div class="body-line">  "email": "ahmet@example.com"</div>
+            <div class="body-line">}</div>
+        </div>
+        
+        <h3>Response Bileşenleri:</h3>
+        <ul>
+            <li><strong>Status Line:</strong> HTTP versiyonu, status code ve status mesajı</li>
+            <li><strong>Headers:</strong> Response hakkında meta bilgiler (Content-Type, Content-Length, vb.)</li>
+            <li><strong>Body:</strong> Gerçek veri (JSON, HTML, XML, vb. formatında)</li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <h2>Request ve Response Özeti</h2>
+        <p>Web uygulamalarında <span class="highlight">Request-Response</span> döngüsü şu şekilde çalışır:</p>
+        
+        <ol style="margin: 20px 0; padding-left: 25px; color: #666; line-height: 2;">
+            <li><strong>İstemci (Client)</strong> sunucuya bir <span class="highlight">Request</span> gönderir</li>
+            <li><strong>Sunucu (Server)</strong> request'i işler ve gerekli işlemleri yapar</li>
+            <li><strong>Sunucu</strong> işlem sonucunu bir <span class="highlight">Response</span> olarak geri gönderir</li>
+            <li><strong>İstemci</strong> response'u alır ve kullanıcıya gösterir</li>
+        </ol>
+        
+        <div class="info-box">
+            <p><strong>💡 Hatırlatma:</strong> Request'ler HTTP metodları (GET, POST, PUT, DELETE) kullanır. Response'lar ise status code'lar (200, 404, 500, vb.) içerir.</p>
+        </div>
+        
+        <p>Bu iki yönlü iletişim, modern web uygulamalarının temelini oluşturur ve kullanıcıların web siteleriyle etkileşim kurmasını sağlar.</p>
+    </div>
+    
+    <script>
+        // Sayfa yüklendiğinde animasyon efektleri
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.method-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+        });
+        
+        // CRUD harflerine tıklandığında bilgi göster
+        const crudLetters = document.querySelectorAll('.crud-letter');
+        const operations = ['Create (Oluştur)', 'Read (Okuma)', 'Update (Güncelleme)', 'Delete (Silme)'];
+        const methods = ['POST', 'GET', 'PUT', 'DELETE'];
+        
+        crudLetters.forEach((letter, index) => {
+            letter.addEventListener('click', function() {
+                alert(`${operations[index]} işlemi için ${methods[index]} HTTP metodu kullanılır.`);
+            });
+            
+            letter.style.cursor = 'pointer';
+        });
+        
+        // Status code kartlarına tıklandığında bilgi göster
+        const statusCards = document.querySelectorAll('.status-card');
+        statusCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const statusNumber = this.querySelector('.status-number').textContent;
+                const statusName = this.querySelector('.status-name').textContent;
+                const statusDesc = this.querySelector('.status-description').textContent;
+                alert(`Status Code: ${statusNumber}\n${statusName}\n\n${statusDesc}`);
+            });
+            
+            card.style.cursor = 'pointer';
+        });
+    </script>
+</body>
+</html>
